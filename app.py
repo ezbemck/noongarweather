@@ -16,18 +16,13 @@ st.set_page_config(
     layout="wide",
 )
 
-if "page" not in st.session_state:
-    st.session_state["page"] = "Home"
+st.markdown(
+    "<h1 style='font-size: 70px;'>Noongar Weather</h1>",
+    unsafe_allow_html=True)# changed this to be more tabs rather than buttons
 
-page = st.sidebar.radio(
-    "Navigation",
-    ["Home", "Past Data", "Info", "Unsure?"],
-    index=["Home", "Past Data", "Info", "Unsure?"].index(
-        st.session_state["page"]
-    )
-)
+home_tab, past_tab, info_tab, unsure_tab = st.tabs(
+    ["Home", "Past Data", "Info", "Unsure?"])
 
-st.session_state["page"] = page
 
 season_colours = {
     "Birak": "#C96A3D",
@@ -39,8 +34,8 @@ season_colours = {
 }
 
 # home page 
-if page == "Home":
-    st.title("Noongar Weather") # this is the title of the page
+with home_tab:
+    st.title("Boorloo Weather Today") # this is the title of the page
     st.write("Explore Perth weather alongside the six Noongar seasons.")# this is the description of the page
 
     current_weather = get_current_weather(data)#this is the function that gets the current weather data from the data file
@@ -99,18 +94,9 @@ if page == "Home":
             f"{current_weather['rainfall_mm']} mm")
         #these all display the current weather data in a metric format with the title and value
 
-    st.write("")
-
-    #this button is used to navigate to the past data page from the home page 
-    if st.button("Explore Past Data"):
-        st.session_state["page"] = "Past Data"
-        st.rerun()
-
-
-
  
 #past data second page 
-elif page == "Past Data":
+with past_tab:
     st.title("Past Weather Data")
     st.write("Explore historical Perth weather records.")
 
@@ -245,11 +231,75 @@ elif page == "Past Data":
 
 
 #infomation page third page
-elif page == "Info":
+with info_tab:
     st.title("Learn About the Noongar Seasons")
-    st.write("Information about the six Noongar seasons will go here.")
+    st.write(
+        "Explore the six Noongar seasons and when they occur throughout the year."
+    )
 
+    st.divider()
+
+    seasons = {
+        "Birak": {
+            "months": "December – January",
+            "colour": "#C96A3D",
+        },
+        "Bunuru": {
+            "months": "February – March",
+            "colour": "#E5B73B",
+        },
+        "Djeran": {
+            "months": "April – May",
+            "colour": "#C97C6D",
+        },
+        "Makuru": {
+            "months": "June – July",
+            "colour": "#4A6FA5",
+        },
+        "Djilba": {
+            "months": "August – September",
+            "colour": "#4F9D69",
+        },
+        "Kambarang": {
+            "months": "October – November",
+            "colour": "#F2A93B",
+        },
+    }
+
+    selected_info_season = st.selectbox(
+        "Choose a season to learn more",
+        list(seasons.keys())
+    )
+
+    season_info = seasons[selected_info_season]
+
+    st.markdown(
+        f"""
+<div style="
+    border-left: 8px solid {season_info['colour']};
+    background-color: {season_info['colour']}20;
+    padding: 24px;
+    border-radius: 12px;
+    margin-top: 20px;
+">
+<h2 style="margin-top: 0;">
+    {selected_info_season}
+</h2>
+
+<p><strong>Months:</strong> {season_info['months']}</p>
+
+<p>
+    Seasonal description will be added here from an approved source.
+</p>
+</div>
+""",
+        unsafe_allow_html=True
+    )
+
+
+
+    
 #Not sure what the page is going to be yet
-elif page == "Unsure?":
+with unsure_tab:
     st.title("Unsure Which Season?")
     st.write("Use this page to help identify a season.")
