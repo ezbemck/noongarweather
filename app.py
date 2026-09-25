@@ -159,38 +159,29 @@ with past_tab:
                 st.success(f"Found {len(filtered_data)} weather records.")
                 st.dataframe(filtered_data)
 
-                # Add a year column so the data can be grouped by year
-                filtered_data["year"] = filtered_data["date"].dt.year
+                daily_data = filtered_data.sort_values("date")
 
-                # Work out yearly temperature averages and rainfall totals
-                yearly_data = (
-                    filtered_data.groupby("year")
-                    .agg(
-                        max_temperature=("temp_max", "mean"),
-                        min_temperature=("temp_min", "mean"),
-                        total_rainfall=("rainfall_mm", "sum"),
-                    )
-                    .reset_index())
 
                 # Temperature chart
-                st.subheader("Temperature by Year")
+                st.subheader("Temperature by Day")
 
-                yearly_data["year"] = yearly_data["year"].astype(str)
 
                 temperature_chart = px.line(
-                    yearly_data,
-                    x="year",
-                    y=["max_temperature", "min_temperature"],
+                     daily_data,
+                    x="date",
+                    y=["temp_max", "temp_min"],
                     markers=True,
                     labels={
-                        "year": "Year",
+                        "date": "Date",
                         "value": "Temperature (°C)",
                         "variable": "Temperature",
-                    },
-                    color_discrete_sequence=[
-                        chart_accent,
-                          "#8BBFD9",],)
-                
+                },
+                color_discrete_sequence=[
+                    chart_accent,
+                     "#8BBFD9",
+                    ],
+                )
+
                 temperature_chart.for_each_trace(# this is used to rename the traces in the chart to be more user friendly
                     lambda trace: trace.update(
                         name={
@@ -199,22 +190,27 @@ with past_tab:
                             }.get(trace.name, trace.name)
                     ) )
 
-                st.plotly_chart(# this is used to display the chart on the page
+                st.plotly_chart(
                     temperature_chart,
-                    use_container_width=True )
+                    width="stretch"
+                    )
 
                 # Rainfall chart
-                st.subheader("Total Rainfall by Year")
+                st.subheader("Rainfall by Day")
 
                 rainfall_chart = px.bar(
-                    yearly_data,
-                    x="year",
-                    y="total_rainfall",
+                    daily_data,
+                    x="date",
+                    y="rainfall_mm",
                     labels={
-                        "year": "Year",
-                        "total_rainfall": "Total Rainfall (mm)",
+                        "date": "Date",
+                        "rainfall_mm": "Rainfall (mm)",
                     },
-                    color_discrete_sequence=[chart_accent],)
+                    color_discrete_sequence=[
+                        chart_accent,
+                    "#8BBFD9",
+                     ], 
+                )
 
                 st.plotly_chart(
                     rainfall_chart,
