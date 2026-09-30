@@ -1,5 +1,6 @@
 import streamlit as st # this is the streamlit library that is being used to create the web app
 import plotly.express as px # this is the plotly library that is being used to create the graphs
+import json
 
 from src.weather_service import (
     filter_historical_weather,
@@ -230,38 +231,14 @@ with past_tab:
 with info_tab:
     st.title("Learn About the Noongar Seasons")
     st.write(
-        "Explore the six Noongar seasons and when they occur throughout the year."
-    )
-
+        "Explore the six Noongar seasons and the seasonal changes associated with them.")
     st.divider()
 
-    seasons = {
-        "Birak": {
-            "months": "December – January",
-            "colour": "#C96A3D",
-        },
-        "Bunuru": {
-            "months": "February – March",
-            "colour": "#E5B73B",
-        },
-        "Djeran": {
-            "months": "April – May",
-            "colour": "#C97C6D",
-        },
-        "Makuru": {
-            "months": "June – July",
-            "colour": "#4A6FA5",
-        },
-        "Djilba": {
-            "months": "August – September",
-            "colour": "#4F9D69",
-        },
-        "Kambarang": {
-            "months": "October – November",
-            "colour": "#F2A93B",
-        },
-    }
+# Load season information from JSON file
+    with open("data/seasons.json", "r") as file:
+        seasons = json.load(file)
 
+# Season selector
     selected_info_season = st.selectbox(
         "Choose a season to learn more",
         list(seasons.keys())
@@ -269,28 +246,53 @@ with info_tab:
 
     season_info = seasons[selected_info_season]
 
+ # Season heading
     st.markdown(
         f"""
-<div style="
-    border-left: 8px solid {season_info['colour']};
-    background-color: {season_info['colour']}20;
-    padding: 24px;
-    border-radius: 12px;
-    margin-top: 20px;
-">
-<h2 style="margin-top: 0;">
-    {selected_info_season}
-</h2>
-
-<p><strong>Months:</strong> {season_info['months']}</p>
-
-<p>
-    Seasonal description will be added here from an approved source.
-</p>
-</div>
-""",
+        <div style="
+            border-left: 8px solid {season_info['colour']};
+            background-color: {season_info['colour']}20;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        ">
+            <h2>{selected_info_season}</h2>
+            <p><strong>📅 Months:</strong> {season_info['months']}</p>
+        </div>
+        """,
         unsafe_allow_html=True
     )
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.subheader("Seasonal Signs")
+        for sign in season_info["seasonal_signs"]:
+            st.write(f"• {sign}")
+
+    with col2:
+        st.subheader("Native Flowers")
+        for flower in season_info["flowers"]:
+            st.write(f"• {flower}")
+
+    col3, col4 = st.columns(2)
+
+    with col3:
+        st.subheader("Animals")
+        for animal in season_info["animals"]:
+            st.write(f"• {animal}")
+
+    with col4:
+        st.subheader("Seasonal Foods")
+        for food in season_info["food"]:
+            st.write(f"• {food}")
+
+    st.subheader("Traditional Practices")
+    for practice in season_info["traditional_practices"]:
+        st.write(f"• {practice}")
+        
+
 
 
 
