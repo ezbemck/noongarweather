@@ -1,0 +1,34 @@
+{
+    "Birak": {
+        "months": "December – January",
+        "colour": "#C96A3D",
+
+        "seasonal_signs": [
+            "Rain begins to ease",
+            "Daily temperatures begin to rise",
+            "Afternoon sea breezes arrive from the south-west"
+        ],
+
+        "flowers": [
+            "Swan River Daisy",
+            "Rottnest Island Lace Flower",
+            "Golden Verticordia"
+        ],
+
+        "animals": [
+            "Young birds begin venturing out of their nests",
+            "Reptiles shed their old skins"
+        ],
+
+        "food": [
+            "Blue swimmer crabs",
+            "Prawns",
+            "Quandong"
+        ],
+
+        "traditional_practices": [
+            "Controlled burning of Country was traditionally carried out during Birak",
+            "During this season, Noongar people would move towards coastal areas"
+        ]
+    }
+}
