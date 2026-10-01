@@ -1,7 +1,7 @@
 {
     "Birak": {
         "months": "December – January",
-        "colour": "#C96A3D",
+        "colour": "#D94A4A",
 
         "seasonal_signs": [
             "Rain begins to ease",
@@ -29,6 +29,181 @@
         "traditional_practices": [
             "Controlled burning of Country was traditionally carried out during Birak",
             "During this season, Noongar people would move towards coastal areas"
+        ]
+    },
+
+
+
+    "Bunuru": {
+        "months": "February – March",
+        "colour": "#E58A35",
+
+        "seasonal_signs": [
+            "Hottest time of the year",
+            "There is little to no rain",
+            "Hot easterly wind in the morning and cool sea breezes in the afternoon"
+        ],
+
+        "flowers": [
+            "Jarrah",
+            "Marri",
+            "Ghost gums",
+            "Djiriji (zamia palm)"
+        ],
+
+        "animals": [
+            "Dolphins and calves close to shore",
+            "Snakes",
+            "Lizards"
+        ],
+
+        "food": [
+            "Fish such as tailor, mullet and marron",
+            "Gilgies",
+            "Other seafood"
+        ],
+
+        "traditional_practices": [
+            "Traditionally a time for living and fishing around the coast, rivers and estuaries"
+            
+        ]
+    },
+
+
+
+    "Djeran": {
+        "months": "April – May",
+        "colour": "#6B8E5A",
+
+        "seasonal_signs": [
+            "Hot weather begins to ease and nights become cooler",
+            "Light breezes generally arrive from southerly directions",
+            "Conditions become wetter and damper as the season progresses"
+        ],
+
+        "flowers": [
+            "Red-flowering gum",
+            "Summer flame",
+            "Banksias"
+        ],
+
+        "animals": [
+            "Flying ants become quite common and can often be seen in the air"
+        ],
+
+        "food": [
+            "Zamia seeds",
+            "Yanget (bulrush) root bulbs",
+            "Freshwater fish",
+            "Frogs",
+            "Turtles"
+        ],
+
+        "traditional_practices": [
+            "Mia mias (traditional shelters) were repaired and prepared for the wetter winter months"
+        ]
+    },
+
+
+
+    "Makuru": {
+        "months": "June – July",
+        "colour": "#456A8D",
+
+        "seasonal_signs": [
+            "Coldest and wettest time of the year",
+            "Waterways and water bodies begin to fill",
+            "Cold westerly and southerly winds become much more common"
+        ],
+
+        "flowers": [
+            "Blueberry lily",
+            "Purple flags"
+        ],
+
+        "animals": [
+            "Many animals begin pairing up in preparation for breeding",
+            "Black swans (Mali) start to gather around lakes and rivers as they start to prepare for nesting and breeding"
+        ],
+
+        "food": [
+            "Kangaroo (yongar)",
+            "Food sources shift from the sea, estuaries and lakes towards land-based animals"
+        ],
+
+        "traditional_practices": [
+            "Traditionally a time for Noongar people to live and fish around the coast, rivers and estuaries",
+            "Kangaroo skins were used to make bookas (animal-skin cloaks) for the colder weather"
+        ]
+    },
+
+
+
+    "Djilba": {
+        "months": "August – September",
+        "colour": "#D887A6",
+
+        "seasonal_signs": [
+            "The days get warmer but they are mixed with rainy and windy conditions",
+            "A major flowering period begins across the South West"
+        ],
+
+        "flowers": [
+            "Acacias",
+            "Weeping peppermint (wannang)",
+            "Jarrah"
+        ],
+
+        "animals": [
+            "Djilba is a major season for animal births",
+            "Koolbardi (magpies), Djidi djidi (willy wagtails) and chuck-a-luck (wattlebirds) protect their young"
+        ],
+
+        "food": [
+            "Kangaroo (yongar)",
+            "Emu (waitj)",
+            "Possum (koomal)"
+        ],
+
+        "traditional_practices": [
+            " Noongar children were traditionally taught the different wildlife, foraging and respecting protective animals",
+            "As rain decreased and temperatures increased, families would begin to move from their inland camps towards coastal areas"
+        ]
+    },
+
+
+
+    "Kambarang": {
+        "months": "October – November",
+        "colour": "#D9A62E",
+
+        "seasonal_signs": [
+            "Daily temperatures begin to rise",
+            "Rain begins to ease and days start to become drier",
+            "Coastal cold fronts become less frequent"
+        ],
+
+        "flowers": [
+            "Banksias",
+            "Kangaroo paw",
+            "Orchids",
+            "Balga"
+        ],
+
+        "animals": [
+            "Snakes and other reptiles come out of hibernation as temperatures rise"
+        ],
+
+        "food": [
+            "Native edible flowers",
+            "Native herbs and berries",
+            "Djilbuck",
+            "Quandong (native peach)",
+            "Fish"
+        ],
+
+        "traditional_practices": [
+             "Families would begin to move from their inland camps towards coastal areas"
         ]
     }
 }
