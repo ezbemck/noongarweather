@@ -896,7 +896,7 @@ with why_tab:
             "seasonal changes on Noongar Country through signs in the weather, "
             "plants, and animals, rather than only dividing the year into four "
             "named blocks. The seasons can be understood through what is changing "
-            "around us."
+            "around Perth and South Western WA."
         )
 
         st.subheader("📅 One year, two ways to describe it")
@@ -1046,6 +1046,6 @@ with about_tab:
 
     st.subheader("🧑‍🎓 About this project")
     st.write(
-        "Built by **[Team/student name]** as a **[school/university] project** to help Perth "
+        "A CITS1501 Project to help Perth "
         "primary school students learn about the six Noongar seasons alongside real local weather data."
     )
