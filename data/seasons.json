@@ -2,95 +2,231 @@
     "Birak": {
         "months": "December – January",
         "colour": "#D94A4A",
-
+        "translation": "First summer — season of the young",
+        "translation_source": "https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar#bom-anchor-list__item-birak-season-of-the-young",
+        "images": {
+            "flowers": [
+                {
+                    "common_name": "Swan River Daisy",
+                    "scientific_name": "Brachyscome iberidifolia",
+                    "image": "assets/flowers/birak_swan-river-daisy.jpg",
+                    "why": "Flowers through the hot, dry Birak months across the Swan Coastal Plain.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Rottnest Island Lace Flower",
+                    "scientific_name": "Trachymene coerulea",
+                    "image": "assets/flowers/birak_rottnest-island-lace-flower.jpg",
+                    "why": "Also called the Blue Lace Flower; blooms in sandy coastal areas during the warmer months.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Golden Verticordia",
+                    "scientific_name": "Verticordia acerosa",
+                    "image": "assets/flowers/birak_golden-verticordia.jpg",
+                    "why": "A feather flower that blooms in the heat of early Birak.",
+                    "category": "flower"
+                }
+            ],
+            "animals": [
+                {
+                    "common_name": "Young birds",
+                    "scientific_name": "various species",
+                    "image": "assets/animals/birak_young-birds.jpg",
+                    "why": "Birds that bred earlier in the year fledge and leave the nest as Birak begins.",
+                    "category": "animal"
+                },
+                {
+                    "common_name": "Reptiles shedding skin",
+                    "scientific_name": "Pseudonaja affinis (dugite, pictured) and other local reptiles",
+                    "image": "assets/animals/birak_reptiles-shedding-skin.jpg",
+                    "why": "Reptiles become more active in the heat of Birak and shed their skin as they grow.",
+                    "category": "animal"
+                }
+            ],
+            "food": [
+                {
+                    "common_name": "Blue swimmer crab",
+                    "scientific_name": "Portunus pelagicus",
+                    "image": "assets/food/birak_blue-swimmer-crab.jpg",
+                    "where_to_find": "Estuaries and shallow coastal waters, e.g. Swan River and Cockburn Sound.",
+                    "why": "A traditional coastal food source as Noongar people moved toward the coast during Birak.",
+                    "category": "food"
+                }
+            ]
+        },
         "seasonal_signs": [
             "Rain begins to ease",
             "Daily temperatures begin to rise",
             "Afternoon sea breezes arrive from the south-west"
         ],
-
         "flowers": [
             "Swan River Daisy",
             "Rottnest Island Lace Flower",
             "Golden Verticordia"
         ],
-
         "animals": [
             "Young birds begin venturing out of their nests",
             "Reptiles shed their old skins"
         ],
-
         "food": [
             "Blue swimmer crabs",
             "Prawns",
             "Quandong"
         ],
-
         "traditional_practices": [
             "Controlled burning of Country was traditionally carried out during Birak",
             "During this season, Noongar people would move towards coastal areas"
         ]
     },
-
-
-
     "Bunuru": {
         "months": "February – March",
         "colour": "#E58A35",
-
+        "translation": "Second summer — season of adolescence",
+        "translation_source": "https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar#bom-anchor-list__item-bunuru-season-of-adolescence",
+        "images": {
+            "flowers": [
+                {
+                    "common_name": "Jarrah",
+                    "scientific_name": "Eucalyptus marginata",
+                    "image": "assets/flowers/bunuru_jarrah.jpg",
+                    "why": "A dominant South West forest tree; its flowering overlaps with the dry Bunuru months.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Marri",
+                    "scientific_name": "Corymbia calophylla",
+                    "image": "assets/flowers/bunuru_marri.jpg",
+                    "why": "A large flowering gum, often paired with jarrah in South West forests, flowering through summer.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Ghost gums",
+                    "scientific_name": "Eucalyptus laeliae",
+                    "image": "assets/flowers/bunuru_ghost-gums.jpg",
+                    "why": "A white-barked eucalypt found in the Perth hills, flowering through the warmer months.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Djiriji (zamia palm)",
+                    "scientific_name": "Macrozamia riedlei",
+                    "image": "assets/flowers/bunuru_djiriji-zamia-palm.jpg",
+                    "why": "A cycad whose seeds were a traditional food source once properly prepared to remove toxins.",
+                    "category": "flower"
+                }
+            ],
+            "animals": [
+                {
+                    "common_name": "Dolphins and calves",
+                    "scientific_name": "Tursiops aduncus (Indo-Pacific bottlenose dolphin)",
+                    "image": "assets/animals/bunuru_dolphins.jpg",
+                    "why": "Dolphins are commonly seen close to shore and in the Swan River estuary during the warm Bunuru months.",
+                    "category": "animal"
+                },
+                {
+                    "common_name": "Snakes (Bunuru)",
+                    "scientific_name": "Notechis scutatus (tiger snake, pictured)",
+                    "image": "assets/animals/bunuru_snakes.jpg",
+                    "why": "Snakes are most active in the hot, dry Bunuru months.",
+                    "category": "animal"
+                },
+                {
+                    "common_name": "Lizards",
+                    "scientific_name": "Varanus gouldii (Gould's monitor, pictured)",
+                    "image": "assets/animals/bunuru_lizards.jpg",
+                    "why": "Large monitor lizards are frequently active and visible during the hot Bunuru season.",
+                    "category": "animal"
+                }
+            ],
+            "food": []
+        },
         "seasonal_signs": [
             "Hottest time of the year",
             "There is little to no rain",
             "Hot easterly wind in the morning and cool sea breezes in the afternoon"
         ],
-
         "flowers": [
             "Jarrah",
             "Marri",
             "Ghost gums",
             "Djiriji (zamia palm)"
         ],
-
         "animals": [
             "Dolphins and calves close to shore",
             "Snakes",
             "Lizards"
         ],
-
         "food": [
             "Fish such as tailor, mullet and marron",
             "Gilgies",
             "Other seafood"
         ],
-
         "traditional_practices": [
             "Traditionally a time for living and fishing around the coast, rivers and estuaries"
-            
         ]
     },
-
-
-
     "Djeran": {
         "months": "April – May",
         "colour": "#6B8E5A",
-
+        "translation": "Autumn — season of adulthood",
+        "translation_source": "https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar#bom-anchor-list__item-djeran-season-of-adulthood",
+        "images": {
+            "flowers": [
+                {
+                    "common_name": "Red-flowering gum",
+                    "scientific_name": "Corymbia ficifolia",
+                    "image": "assets/flowers/djeran_red-flowering-gum.jpg",
+                    "why": "One of the most recognisable flowering gums of the South West, blooming as the weather cools into Djeran.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Summer flame",
+                    "scientific_name": "Beaufortia aestiva",
+                    "image": "assets/flowers/djeran_summer-flame.jpg",
+                    "why": "A bright red-flowering shrub blooming in late summer into autumn.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Banksias (Djeran)",
+                    "scientific_name": "Banksia menziesii",
+                    "image": "assets/flowers/djeran_banksias.jpg",
+                    "why": "Firewood banksia; one of the first banksias to flower as the weather cools.",
+                    "category": "flower"
+                }
+            ],
+            "animals": [
+                {
+                    "common_name": "Flying ants",
+                    "scientific_name": "various species, e.g. Formica spp.",
+                    "image": "assets/animals/djeran_flying-ants.jpg",
+                    "why": "Winged ants emerge in swarms as the weather cools and the first rains return in Djeran.",
+                    "category": "animal"
+                }
+            ],
+            "food": [
+                {
+                    "common_name": "Freshwater turtle",
+                    "scientific_name": "Chelodina oblonga (oblong turtle)",
+                    "image": "assets/food/djeran_freshwater-turtle.jpg",
+                    "where_to_find": "Wetlands, rivers and lakes across the Perth region.",
+                    "why": "A traditional food source from freshwater wetlands as the wetter months of Djeran begin.",
+                    "category": "food"
+                }
+            ]
+        },
         "seasonal_signs": [
             "Hot weather begins to ease and nights become cooler",
             "Light breezes generally arrive from southerly directions",
             "Conditions become wetter and damper as the season progresses"
         ],
-
         "flowers": [
             "Red-flowering gum",
             "Summer flame",
             "Banksias"
         ],
-
         "animals": [
-            "Flying ants become quite common and can often be seen in the air"
+            "Flying ants become more common"
         ],
-
         "food": [
             "Zamia seeds",
             "Yanget (bulrush) root bulbs",
@@ -98,102 +234,218 @@
             "Frogs",
             "Turtles"
         ],
-
         "traditional_practices": [
             "Mia mias (traditional shelters) were repaired and prepared for the wetter winter months"
         ]
     },
-
-
-
     "Makuru": {
         "months": "June – July",
         "colour": "#456A8D",
-
+        "translation": "Winter — season of fertility",
+        "translation_source": "https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar#bom-anchor-list__item-makuru-season-of-fertility",
+        "images": {
+            "flowers": [
+                {
+                    "common_name": "Blueberry lily",
+                    "scientific_name": "Dianella revoluta",
+                    "image": "assets/flowers/makuru_blueberry-lily.jpg",
+                    "why": "A hardy understorey plant that flowers through the cold, wet Makuru months.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Purple flags",
+                    "scientific_name": "Patersonia occidentalis",
+                    "image": "assets/flowers/makuru_purple-flags.jpg",
+                    "why": "A native iris flowering through the wetter winter months.",
+                    "category": "flower"
+                }
+            ],
+            "animals": [
+                {
+                    "common_name": "Black swans (Mali)",
+                    "scientific_name": "Cygnus atratus",
+                    "image": "assets/animals/makuru_black-swans-mali.jpg",
+                    "why": "Black swans gather on lakes and rivers to prepare for nesting and breeding during Makuru.",
+                    "category": "animal"
+                }
+            ],
+            "food": [
+                {
+                    "common_name": "Kangaroo (yongar)",
+                    "scientific_name": "Macropus fuliginosus (western grey kangaroo)",
+                    "image": "assets/food/makuru_kangaroo-yongar.jpg",
+                    "where_to_find": "Woodland and bushland across the South West.",
+                    "why": "A traditional land-based food source as the focus shifts inland during the cold, wet Makuru season.",
+                    "category": "food"
+                }
+            ]
+        },
         "seasonal_signs": [
             "Coldest and wettest time of the year",
             "Waterways and water bodies begin to fill",
-            "Cold westerly and southerly winds become much more common"
+            "Cold westerly and southerly winds become much more common",
+            "Many animals begin pairing up in preparation for breeding"
         ],
-
         "flowers": [
             "Blueberry lily",
             "Purple flags"
         ],
-
         "animals": [
             "Many animals begin pairing up in preparation for breeding",
             "Black swans (Mali) start to gather around lakes and rivers as they start to prepare for nesting and breeding"
         ],
-
         "food": [
             "Kangaroo (yongar)",
             "Food sources shift from the sea, estuaries and lakes towards land-based animals"
         ],
-
         "traditional_practices": [
             "Traditionally a time for Noongar people to live and fish around the coast, rivers and estuaries",
             "Kangaroo skins were used to make bookas (animal-skin cloaks) for the colder weather"
         ]
     },
-
-
-
     "Djilba": {
         "months": "August – September",
         "colour": "#D887A6",
-
+        "translation": "First spring — season of conception",
+        "translation_source": "https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar#bom-anchor-list__item-djilba-season-of-conception",
+        "images": {
+            "flowers": [
+                {
+                    "common_name": "Acacias",
+                    "scientific_name": "Acacia pulchella (prickly moses) and related species",
+                    "image": "assets/flowers/djilba_acacias.jpg",
+                    "why": "Wattles are among the first big flowering events of Djilba, as the first wildflowers of the season appear.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Weeping peppermint (wannang)",
+                    "scientific_name": "Agonis flexuosa",
+                    "image": "assets/flowers/djilba_weeping-peppermint-wannang.jpg",
+                    "why": "A distinctive weeping-foliage tree of the Swan Coastal Plain, widely used as a street tree in Perth.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Jarrah (Djilba)",
+                    "scientific_name": "Eucalyptus marginata",
+                    "image": "assets/flowers/djilba_jarrah.jpg",
+                    "why": "Early jarrah flowering can begin as part of Djilba's major South West flowering period.",
+                    "category": "flower"
+                }
+            ],
+            "animals": [
+                {
+                    "common_name": "Koolbardi, Djidi djidi and chuck-a-luck",
+                    "scientific_name": "Gymnorhina tibicen (magpie, pictured), Rhipidura leucophrys (willy wagtail), Anthochaera spp. (wattlebird)",
+                    "image": "assets/animals/djilba_koolbardi-magpies.jpg",
+                    "why": "These birds are protective of their young during Djilba's major breeding season.",
+                    "category": "animal"
+                }
+            ],
+            "food": [
+                {
+                    "common_name": "Emu (waitj)",
+                    "scientific_name": "Dromaius novaehollandiae",
+                    "image": "assets/food/djilba_emu-waitj.jpg",
+                    "where_to_find": "Open woodland and bushland across the South West.",
+                    "why": "A traditional food source during Djilba, alongside kangaroo and possum.",
+                    "category": "food"
+                }
+            ]
+        },
         "seasonal_signs": [
             "The days get warmer but they are mixed with rainy and windy conditions",
-            "A major flowering period begins across the South West"
+            "A major flowering period begins across the South West",
+            "Djilba is a major season for animal births"
         ],
-
         "flowers": [
             "Acacias",
             "Weeping peppermint (wannang)",
             "Jarrah"
         ],
-
         "animals": [
             "Djilba is a major season for animal births",
             "Koolbardi (magpies), Djidi djidi (willy wagtails) and chuck-a-luck (wattlebirds) protect their young"
         ],
-
         "food": [
             "Kangaroo (yongar)",
             "Emu (waitj)",
             "Possum (koomal)"
         ],
-
         "traditional_practices": [
             " Noongar children were traditionally taught the different wildlife, foraging and respecting protective animals",
             "As rain decreased and temperatures increased, families would begin to move from their inland camps towards coastal areas"
         ]
     },
-
-
-
     "Kambarang": {
         "months": "October – November",
         "colour": "#D9A62E",
-
+        "translation": "Second spring — season of birth",
+        "translation_source": "https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar#bom-anchor-list__item-kambarang-season-of-birth",
+        "images": {
+            "flowers": [
+                {
+                    "common_name": "Banksias (Kambarang)",
+                    "scientific_name": "Banksia menziesii",
+                    "image": "assets/flowers/kambarang_banksias.jpg",
+                    "why": "Continues flowering into Kambarang's burst of spring wildflowers.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Kangaroo paw",
+                    "scientific_name": "Anigozanthos manglesii",
+                    "image": "assets/flowers/kambarang_kangaroo-paw.jpg",
+                    "why": "Western Australia's floral emblem; flowers prolifically through Kambarang.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Orchids",
+                    "scientific_name": "Elythranthera emarginata (pink enamel orchid)",
+                    "image": "assets/flowers/kambarang_orchids.jpg",
+                    "why": "One of many native orchid species that flower through the South West spring.",
+                    "category": "flower"
+                },
+                {
+                    "common_name": "Balga",
+                    "scientific_name": "Xanthorrhoea preissii",
+                    "image": "assets/flowers/kambarang_balga.jpg",
+                    "why": "The grass tree's tall flower spike is a distinctive sign of the South West spring.",
+                    "category": "flower"
+                }
+            ],
+            "animals": [
+                {
+                    "common_name": "Snakes and reptiles (Kambarang)",
+                    "scientific_name": "various species, e.g. Tiliqua rugosa (bobtail, pictured)",
+                    "image": "assets/animals/kambarang_snakes-reptiles.jpg",
+                    "why": "Reptiles emerge from winter dormancy as temperatures rise in Kambarang.",
+                    "category": "animal"
+                }
+            ],
+            "food": [
+                {
+                    "common_name": "Quandong",
+                    "scientific_name": "Santalum acuminatum",
+                    "image": "assets/food/kambarang_quandong.jpg",
+                    "where_to_find": "Semi-arid woodland and bushland across WA.",
+                    "why": "A native peach eaten as a traditional food, fruiting through spring.",
+                    "category": "food"
+                }
+            ]
+        },
         "seasonal_signs": [
             "Daily temperatures begin to rise",
             "Rain begins to ease and days start to become drier",
             "Coastal cold fronts become less frequent"
         ],
-
         "flowers": [
             "Banksias",
             "Kangaroo paw",
             "Orchids",
             "Balga"
         ],
-
         "animals": [
             "Snakes and other reptiles come out of hibernation as temperatures rise"
         ],
-
         "food": [
             "Native edible flowers",
             "Native herbs and berries",
@@ -201,9 +453,8 @@
             "Quandong (native peach)",
             "Fish"
         ],
-
         "traditional_practices": [
-             "Families would begin to move from their inland camps towards coastal areas"
+            "Families would begin to move from their inland camps towards coastal areas"
         ]
     }
 }

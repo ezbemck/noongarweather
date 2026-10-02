@@ -90,3 +90,31 @@ def get_season_summary_metrics(df: pd.DataFrame, season: str) -> dict:
         # Total rainfall divided by number of unique years to get average seasonal rainfall
         "avg_seasonal_rain": round(season_df["rainfall_mm"].sum() / season_df["date"].dt.year.nunique(), 1)
     }
+
+
+def get_period_extremes(df: pd.DataFrame) -> dict:
+    """Summarize hottest/wettest days and mean diurnal range for a period."""
+    period_df = _prepare_dataframe(df)
+    if period_df.empty:
+        raise ValueError("No weather records found for this period")
+
+    period_df["temp_max"] = pd.to_numeric(period_df["temp_max"], errors="coerce")
+    period_df["temp_min"] = pd.to_numeric(period_df["temp_min"], errors="coerce")
+    period_df["rainfall_mm"] = pd.to_numeric(period_df["rainfall_mm"], errors="coerce")
+
+    valid_temperature = period_df.dropna(subset=["temp_max", "temp_min"])
+    valid_rainfall = period_df.dropna(subset=["rainfall_mm"])
+    if valid_temperature.empty or valid_rainfall.empty:
+        raise ValueError("Weather data is missing temperature or rainfall values")
+
+    hottest = valid_temperature.loc[valid_temperature["temp_max"].idxmax()]
+    wettest = valid_rainfall.loc[valid_rainfall["rainfall_mm"].idxmax()]
+    daily_range = valid_temperature["temp_max"] - valid_temperature["temp_min"]
+
+    return {
+        "hottest_day_date": hottest["date"].strftime("%Y-%m-%d"),
+        "hottest_day_temp_max": round(float(hottest["temp_max"]), 1),
+        "wettest_day_date": wettest["date"].strftime("%Y-%m-%d"),
+        "wettest_day_rainfall_mm": round(float(wettest["rainfall_mm"]), 1),
+        "avg_diurnal_range": round(float(daily_range.mean()), 1),
+    }
