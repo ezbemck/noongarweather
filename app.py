@@ -21,8 +21,8 @@ st.markdown(
     "<h1 style='font-size: 70px;'>Noongar Weather</h1>",
     unsafe_allow_html=True)# changed this to be more tabs rather than buttons
 
-home_tab, past_tab, info_tab, unsure_tab = st.tabs(
-    ["Home", "Past Data", "Info", "Unsure?"])
+home_tab, past_tab, info_tab, why_tab = st.tabs(
+    ["Home", "Past Data", "Info", "Why 6 Seasons?"])
 
 
 season_colours = {
@@ -132,17 +132,8 @@ with past_tab:
     if apply_filters:
         season_filter = None if selected_season == "All Seasons" else selected_season
 
-        season_chart_colours = {#this is the colour that is being used for the chart based on the selected season
-            "Birak": "#C96A3D",
-            "Bunuru": "#E5B73B",
-            "Djeran": "#C97C6D",
-            "Makuru": "#4A6FA5",
-            "Djilba": "#4F9D69",
-            "Kambarang": "#F2A93B",}
-        
-        chart_accent = season_chart_colours.get(#this is the accent colour that is being used for the chart based on the selected season
-            selected_season, 
-            "#4F9D69")
+         #reuse the module-level season_colours dict instead of redefining it here
+        chart_accent = season_colours.get(selected_season, "#4F9D69")
 
 
         try:
@@ -221,11 +212,6 @@ with past_tab:
         except ValueError as error:
             st.error(str(error))
 
-        except ValueError as error:
-            st.error(str(error))
-
-
-
 
 #infomation page third page
 with info_tab:
@@ -297,7 +283,116 @@ with info_tab:
 
 
     
-#Not sure what the page is going to be yet
-with unsure_tab:
-    st.title("Unsure Which Season?")
-    st.write("Use this page to help identify a season.")
+    
+#fourth page - why the app uses six Noongar seasons instead of the four European ones
+with why_tab:
+    st.title("Why Six Seasons?")
+ 
+    st.write(
+        "This app uses the Noongar six-season calendar instead of the "
+        "familiar four-season European one. Here's why that distinction "
+        "matters, especially for a Perth weather app."
+    )
+ 
+    st.markdown(
+        """
+The four-season calendar (summer, autumn, winter, spring) was built for the
+Northern Hemisphere and doesn't map cleanly onto Perth's climate. The Noongar
+six-season calendar, by contrast, comes from tens of thousands of years of
+direct observation of this specific region — tracking real signals like
+flowering plants, animal behaviour, wind direction, and rainfall, rather than
+fixed calendar dates. The seasons can run long or short from year to year,
+because they follow what's actually happening on Country, not a fixed date
+range.
+"""
+    )
+ 
+    st.subheader("Two calendars, one year")
+    st.write(
+        "Laid month-by-month, it's easy to see how little the four imported "
+        "seasons line up with what's actually going on outside:"
+    )
+ 
+    st.markdown(
+        """
+| Month | European season | Noongar season |
+|---|---|---|
+| January | Summer | Birak |
+| February | Summer | Bunuru |
+| March | Autumn | Bunuru |
+| April | Autumn | Djeran |
+| May | Autumn | Djeran |
+| June | Winter | Makuru |
+| July | Winter | Makuru |
+| August | Winter | Djilba |
+| September | Spring | Djilba |
+| October | Spring | Kambarang |
+| November | Spring | Kambarang |
+| December | Summer | Birak |
+"""
+    )
+ 
+    st.write(
+        "Notice August is labelled 'Winter', yet it's already Djilba — when "
+        "the first wildflowers start to bloom. September is called "
+        "'Spring', but it's still Djilba weather on the ground. The "
+        "six-season calendar tracks what's actually changing, instead of "
+        "forcing it into an imported four-box template."
+    )
+ 
+    st.subheader("What marks each season")
+ 
+    season_indicators = {
+        "Birak": (
+            "Dec \u2013 Jan",
+            "Rain eases and heat builds. Traditionally the fire season, "
+            "with controlled burns used to renew the land."
+        ),
+        "Bunuru": (
+            "Feb \u2013 Mar",
+            "The hottest, driest stretch of the year. Traditionally a time "
+            "to move toward coasts, rivers and estuaries for food."
+        ),
+        "Djeran": (
+            "Apr \u2013 May",
+            "The first cool nights and dewy mornings arrive, with red-"
+            "flowering plants signalling the turn toward wetter weather."
+        ),
+        "Makuru": (
+            "Jun \u2013 Jul",
+            "The coldest and wettest season. Traditionally a shift inland "
+            "as waterways rise and animals pair up to breed."
+        ),
+        "Djilba": (
+            "Aug \u2013 Sep",
+            "A changeable mix of cold mornings and emerging warmth, as the "
+            "first wildflowers of the season begin to bloom."
+        ),
+        "Kambarang": (
+            "Oct \u2013 Nov",
+            "A burst of wildflowers and new growth as the land dries out "
+            "again ahead of summer."
+        ),
+    }
+ 
+    for season, (months, blurb) in season_indicators.items():
+        accent = season_colours.get(season, "#4F9D69")
+        st.markdown(
+            f"""
+<div style="border-left: 6px solid {accent}; background-color: {accent}15;
+            border-radius: 8px; padding: 12px 18px; margin-bottom: 10px;">
+<strong style="color: {accent};">{season}</strong>
+<span style="color: #666;"> &middot; {months}</span>
+<p style="margin: 6px 0 0 0;">{blurb}</p>
+</div>
+""",
+            unsafe_allow_html=True,
+        )
+ 
+    st.caption(
+        "Seasonal information draws on the Bureau of Meteorology's "
+        "Indigenous Weather Knowledge resource and Tourism Western "
+        "Australia, with respect to Noongar people as the custodians of "
+        "this knowledge. For the full depth of this knowledge, see the "
+        "Bureau of Meteorology and Noongar community sources directly."
+    )
