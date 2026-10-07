@@ -1,8 +1,8 @@
 import streamlit as st # this is the streamlit library that is being used to create the web app
 import plotly.express as px # this is the plotly library that is being used to create the graphs
 import plotly.graph_objects as go
-import math
 import json
+import calendar
 import pandas as pd
 import requests
 import base64
@@ -49,7 +49,7 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
 
     :root {
         --terracotta: #B8623F;
@@ -66,6 +66,19 @@ st.markdown(
         color: var(--warm-charcoal);
         font-family: 'Nunito', sans-serif;
     }
+    
+    /* --- Force Tabs to Center --- */
+    div[data-testid="stTabs"] > div:first-of-type {
+        justify-content: center !important;
+        display: flex !important;
+        width: 100% !important;
+    }
+    div[data-testid="stTabs"] [role="tablist"] {
+        justify-content: center !important;
+        margin: 0 auto !important;
+        display: flex !important;
+    }
+    
     [data-testid="stHeader"] { background: transparent; }
     .stApp h1, .stApp h2, .stApp h3, .stApp h4,
     .stApp [data-testid="stMetricValue"] {
@@ -79,6 +92,8 @@ st.markdown(
         color: var(--warm-charcoal);
         font-family: 'Nunito', sans-serif;
     }
+    
+    /* Tab Styling */
     [data-testid="stTabs"] button[role="tab"] {
         color: var(--deep-teal);
         font-family: 'Baloo 2', sans-serif;
@@ -89,32 +104,53 @@ st.markdown(
         color: var(--terracotta);
         border-bottom: 4px solid var(--terracotta);
     }
+    
+    /* Button Styling */
     button[kind="primary"] {
         background: var(--terracotta) !important;
         border-color: var(--terracotta) !important;
         color: white !important;
-        border-radius: 16px;
+        border-radius: 50px !important;
         font-family: 'Nunito', sans-serif;
         font-weight: 800;
+        font-size: 1.2rem !important;
+        padding: 10px 24px !important;
+        margin-top: 16px !important; /* Spaces the find out button down */
     }
     button[kind="secondary"] {
         background: #FFF9F1 !important;
         color: var(--deep-teal) !important;
         border-color: var(--deep-teal) !important;
-        border-radius: 16px;
+        border-radius: 50px !important;
         font-family: 'Nunito', sans-serif;
         font-weight: 800;
+        font-size: 1.2rem !important;
+        padding: 10px 24px !important;
+        margin-top: 16px !important;
     }
-    [data-testid="stBaseButton-primary"] {
-        background: var(--terracotta) !important;
-        border-color: var(--terracotta) !important;
-        color: #FFFFFF !important;
+    
+    /* Nicer Colours for Dropdowns */
+    .stSelectbox > div > div {
+        background-color: #FFF9F1 !important;
+        border: 2px solid var(--ochre) !important;
+        border-radius: 12px !important;
     }
-    [data-testid="stBaseButton-secondary"] {
-        background: #FFF9F1 !important;
-        border-color: var(--deep-teal) !important;
+    /* Fix text color inside the selection box */
+    .stSelectbox > div > div * {
         color: var(--deep-teal) !important;
+        font-weight: 700 !important;
     }
+    /* Fix the pop-up list background and text */
+    div[data-baseweb="popover"] > div, 
+    div[data-baseweb="popover"] ul {
+        background-color: #FFF9F1 !important;
+    }
+    div[data-baseweb="popover"] li, 
+    div[data-baseweb="popover"] li span {
+        color: var(--deep-teal) !important;
+        font-weight: 600 !important;
+    }
+    
     [data-testid="stMetric"] {
         min-height: 140px;
         display: flex;
@@ -231,37 +267,39 @@ st.markdown(
         border-color: #B8623F !important;
         color: white !important;
     }
-    [data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stImage"]),
-    [data-testid="stVerticalBlockBorderWrapper"]:has(.season-photo-placeholder) {
-        transition: transform 180ms ease, box-shadow 180ms ease;
-    }
-    [data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stImage"]):hover,
-    [data-testid="stVerticalBlockBorderWrapper"]:has(.season-photo-placeholder):hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 24px rgba(43, 36, 32, 0.14);
-    }
-    [data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stImage"]):hover::after,
-    [data-testid="stVerticalBlockBorderWrapper"]:has(.season-photo-placeholder):hover::after {
-        content: '✦';
-        position: absolute;
-        top: 10px;
-        right: 14px;
-        color: var(--ochre);
-        font-size: 1.4rem;
-        pointer-events: none;
-    }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
+# New Logo Header
 st.markdown(
-    "<h1 style='text-align:center; font-size:3.5rem; color:#B8623F;'>🌿 Noongar Weather</h1>",
+    """
+    <div style="
+        background: #FFF9F1; 
+        border: 3px solid #B8623F; 
+        border-radius: 24px; 
+        padding: 16px 32px; 
+        margin: 16px auto 40px auto; 
+        max-width: 800px; 
+        box-shadow: 0 12px 28px rgba(43, 36, 32, 0.12);
+    ">
+        <h1 style='
+            text-align:center; 
+            font-family:\"Fredoka\", sans-serif; 
+            font-size:5rem; 
+            letter-spacing:2px; 
+            color:#B8623F; 
+            margin: 0; 
+            text-shadow: 2px 2px 4px rgba(184, 98, 63, 0.2);
+        '>Noongar Weather</h1>
+    </div>
+    """,
     unsafe_allow_html=True,
 )
 
 home_tab, past_tab, seasons_tab, why_tab, about_tab = st.tabs(
-    ["Home", "Past Data", "Learn About the Seasons", "Why 6 Seasons?", "About"])
+    ["Home", "Past Data", "Learn About the Seasons", "Why 6 Seasons?", "For Teachers & Parents"])
 
 
 season_colours = {
@@ -464,7 +502,6 @@ def render_today_summary():
                 <h2 style="color:#2F6F6E; margin:0;">📅 In Perth today</h2>
                 <p style="font-size:1.4rem; font-weight:800; margin:12px 0 0;">{now_perth.strftime('%A, %-d %B %Y')}</p>
                 <p style="font-size:2rem; font-weight:800; color:#B8623F; margin:0;">{now_perth.strftime('%-I:%M %p')} AWST</p>
-                <p style="margin:8px 0 0;">The clock updates every minute.</p>
             </div>
             """,
             unsafe_allow_html=True,
@@ -490,7 +527,7 @@ def render_today_summary():
                 <p style="font-weight:800; margin:4px 0 12px;">{escape(current_translation)}</p>
                 <p style="font-size:1.8rem; font-weight:800; margin:0;">{escape(temperature_text)}</p>
                 <p style="margin:8px 0 0;">{escape(rainfall_text)}</p>
-                <p style="font-size:.9rem; margin:8px 0 0;">Live conditions from Open-Meteo; not a daily maximum or forecast.</p>
+                <p style="font-size:.9rem; margin:8px 0 0;">Live conditions from Open-Meteo</p>
             </div>
             """,
             unsafe_allow_html=True,
@@ -499,170 +536,298 @@ def render_today_summary():
 
 with home_tab:
     st.title("☀️ Boorloo Weather Today")
-    st.write("See today's Perth date, time, and Noongar season. Weather readings are shown only when the dataset contains today's observations.")
+    st.write("See today's Perth date, time, and Noongar season!")
     render_today_summary()
 
 
 # Past Data
 with past_tab:
     st.title("🧭 Past Weather Explorer")
-    st.write("Choose some years and seasons to explore how Perth weather changes.")
-    st.info(
-        f"Move the year slider, choose one or more seasons, then press **Show my weather**. "
-        f"The slider is limited to the data we have ({DATA_MIN_YEAR}–{DATA_MAX_YEAR}). "
-        "The charts compare daily temperatures and rainfall totals."
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    st.markdown(
+        """
+        <div style="background:#FFF9F1; border:2px solid #D9A441; border-radius:20px; padding:28px; margin-bottom: 32px; box-shadow:0 8px 20px rgba(43,36,32,.08); text-align:center;">
+            <h3 style="color:#B8623F; margin-top:0; font-family:'Baloo 2', sans-serif;">🎂 Which Noongar season were you born in?</h3>
+            <p style="margin-bottom:0; font-size: 1.1rem;">Enter your birthday to see the season, flower, and exact weather on your special day!</p>
+        </div>
+        """, unsafe_allow_html=True
     )
+    
+    # Stack the dropdowns vertically in the center, and make the button wrap to its text width
+    col1, col2, col3 = st.columns([1, 1.2, 1])
+    with col2:
+        b_day = st.selectbox("Day", range(1, 32))
+        b_month = st.selectbox("Month", range(1, 13), format_func=lambda x: calendar.month_name[x])
+        b_year = st.selectbox("Year", range(datetime.now().year, 1900, -1), index=datetime.now().year - 2015)
+        
+        # use_container_width=False forces the button sides to end at the text
+        col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
+        with col_btn2:
+            find_out_clicked = st.button("Find out! 🎉", type="primary", use_container_width=False)
+        
+    if "bday_checked" not in st.session_state:
+        st.session_state.bday_checked = False
+        
+    if find_out_clicked:
+        st.session_state.bday_checked = True
+        try:
+            b_date = calendar_date(b_year, b_month, b_day)
+            
+            if b_year < 1993 or b_date > DATA_MAX_DATE.date():
+                st.error("No weather records available sorry - please contact BoM!")
+            else:
+                record = data[data["date"].dt.date == b_date]
+                if record.empty:
+                    st.warning("We don't have weather data for that exact day. Please try another!")
+                else:
+                    day_weather = record.iloc[0]
+                    b_season = day_weather["noongar_season"]
+                    s_info = season_data[b_season]
+                    accent = season_colours[b_season]
+                    
+                    flower = s_info["images"]["flowers"][0]
+                    flower_path = local_image_path("flowers", flower["common_name"], flower.get("image"))
+                    
+                    if flower_path:
+                        img_data = base64.b64encode(flower_path.read_bytes()).decode("ascii")
+                        ext = flower_path.suffix.lstrip('.')
+                        mime_type = "image/jpeg" if ext in ["jpg", "jpeg"] else f"image/{ext}"
+                        img_html = f'<img src="data:{mime_type};base64,{img_data}" style="width:100%; max-width:280px; border-radius:14px; border:3px solid {accent}; box-shadow: 0 8px 16px rgba(0,0,0,0.1); margin-top:16px;">'
+                    else:
+                        img_html = f'<div style="font-size:4rem;">🌸</div>'
 
-    selected_year_range = st.slider(
-        "🗓️ Choose a year range",
-        min_value=DATA_MIN_YEAR,
-        max_value=DATA_MAX_YEAR,
-        value=DEFAULT_YEAR_RANGE,
-        step=1,
-        key="past_year_range",
-        help="The ends of the slider cannot go beyond the years in this dataset.",
-    )
-    selected_seasons = st.multiselect(
-        "🍂 Choose seasons to compare",
-        options=list(season_colours),
-        default=list(season_colours),
-        format_func=lambda season: f"{season_emojis[season]} {season}",
-        key="past_seasons",
-        help="Choose one season or several. Clear all choices to see no seasonal records.",
-    )
+                    html_card = f"""
+<style>
+@keyframes popIn {{
+    0% {{ transform: scale(0.8) translateY(20px); opacity: 0; }}
+    60% {{ transform: scale(1.03) translateY(-5px); opacity: 1; }}
+    100% {{ transform: scale(1) translateY(0); opacity: 1; }}
+}}
+.bday-card {{
+    animation: popIn 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    background: {accent}18; border: 3px solid {accent}; border-radius: 20px;
+    padding: 32px; text-align: center; margin: 32px auto; max-width: 650px;
+    box-shadow: 0 10px 25px rgba(43,36,32,.12);
+}}
+</style>
+<div class="bday-card">
+<h2 style="color:{accent}; font-size:2.6rem; margin:0;">🎉 You were born in {b_season}! {season_emojis[b_season]}</h2>
+<p style="font-size:1.2rem; font-weight:800; color:#2B2420;">{escape(s_info['translation'])}</p>
 
-    apply_col, reset_col = st.columns([1, 1])
-    with apply_col:
-        show_results = st.button("Show my weather", type="primary", use_container_width=True)
-    with reset_col:
-        st.button("Reset filters", type="secondary", use_container_width=True, on_click=reset_past_filters)
+<div style="display:flex; justify-content:center; gap:16px; margin: 28px 0; flex-wrap:wrap;">
+<div style="background:#FFF9F1; padding:14px 24px; border-radius:14px; border:2px solid {accent}50;">
+<p style="margin:0; font-size:0.9rem;">High</p>
+<h3 style="margin:0; color:#D94A4A;">{day_weather['temp_max']:.1f} °C</h3>
+</div>
+<div style="background:#FFF9F1; padding:14px 24px; border-radius:14px; border:2px solid {accent}50;">
+<p style="margin:0; font-size:0.9rem;">Low</p>
+<h3 style="margin:0; color:#4A6FA5;">{day_weather['temp_min']:.1f} °C</h3>
+</div>
+<div style="background:#FFF9F1; padding:14px 24px; border-radius:14px; border:2px solid {accent}50;">
+<p style="margin:0; font-size:0.9rem;">Rainfall</p>
+<h3 style="margin:0; color:#2F6F6E;">{day_weather['rainfall_mm']:.1f} mm</h3>
+</div>
+</div>
 
-    if show_results:
-        st.session_state["past_applied_year_range"] = selected_year_range
-        st.session_state["past_applied_seasons"] = selected_seasons
+<p style="font-size:1.1rem; margin-bottom:0;"><strong>Seasonal Sign:</strong> {escape(s_info['seasonal_signs'][0])}</p>
+<p style="font-size:1rem; margin-top:8px;"><strong>Seasonal Flower to expect:</strong> {escape(flower['common_name'])}</p>
+{img_html}
+</div>
+"""
+                    st.markdown(html_card, unsafe_allow_html=True)
+        except ValueError:
+            st.error("Oops! That date doesn't exist (like February 31st). Check your date and try again!")
 
-    applied_year_range = st.session_state.get("past_applied_year_range")
-    applied_seasons = st.session_state.get("past_applied_seasons")
-
-    if applied_year_range is None or applied_seasons is None:
-        st.markdown("### Ready? Pick your filters above and press **Show my weather** 🌦️")
-    elif not applied_seasons:
-        st.warning("Choose at least one season to see weather records.")
-    else:
-        start_year, end_year = applied_year_range
-        start_date = max(DATA_MIN_DATE.date(), calendar_date(start_year, 1, 1))
-        end_date = min(DATA_MAX_DATE.date(), calendar_date(end_year, 12, 31))
-        filtered_data = filter_historical_weather(
-            data,
-            start_date=start_date.isoformat(),
-            end_date=end_date.isoformat(),
+    # --- SHOW EXPLORER ONLY AFTER BIRTHDAY IS CHECKED ---
+    if st.session_state.bday_checked:
+        st.markdown("<br><hr style='border:2px dashed #E5D8C8;'><br>", unsafe_allow_html=True)
+        st.markdown(
+            "<h2 style='text-align:center; color:#2F6F6E; font-size:2.4rem;'>Now choose some years and seasons to explore how Perth weather changes over time! 🔍</h2>", 
+            unsafe_allow_html=True
         )
-        filtered_data = filtered_data[filtered_data["noongar_season"].isin(applied_seasons)].copy()
+        st.markdown("<br>", unsafe_allow_html=True)
 
-        if filtered_data.empty:
-            st.warning("No records match those choices. Try another year or season.")
+        # Filters laid out side-by-side (2 per row)
+        filt_col1, filt_col2 = st.columns(2, gap="large")
+        with filt_col1:
+            selected_year_range = st.slider(
+                "🗓️ Choose a year range",
+                min_value=DATA_MIN_YEAR,
+                max_value=DATA_MAX_YEAR,
+                value=DEFAULT_YEAR_RANGE,
+                step=1,
+                key="past_year_range",
+            )
+        with filt_col2:
+            selected_seasons = st.multiselect(
+                "🍂 Choose seasons to compare",
+                options=list(season_colours),
+                default=list(season_colours),
+                format_func=lambda season: f"{season_emojis[season]} {season}",
+                key="past_seasons",
+            )
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        apply_col, reset_col = st.columns([1, 1])
+        with apply_col:
+            show_results = st.button("Show my weather", type="primary", use_container_width=True)
+        with reset_col:
+            st.button("Reset filters", type="secondary", use_container_width=True, on_click=reset_past_filters)
+
+        if show_results:
+            st.session_state["past_applied_year_range"] = selected_year_range
+            st.session_state["past_applied_seasons"] = selected_seasons
+
+        applied_year_range = st.session_state.get("past_applied_year_range")
+        applied_seasons = st.session_state.get("past_applied_seasons")
+
+        if applied_year_range is None or applied_seasons is None:
+            st.markdown("<br><h3 style='text-align:center; color:#D9A441;'>Ready? Pick your filters above and press <strong>Show my weather</strong> 🌦️</h3>", unsafe_allow_html=True)
+        elif not applied_seasons:
+            st.warning("Choose at least one season to see weather records.")
         else:
-            st.markdown(f"### 🎉 We found {len(filtered_data):,} days of weather!")
+            start_year, end_year = applied_year_range
+            start_date = max(DATA_MIN_DATE.date(), calendar_date(start_year, 1, 1))
+            end_date = min(DATA_MAX_DATE.date(), calendar_date(end_year, 12, 31))
+            filtered_data = filter_historical_weather(
+                data,
+                start_date=start_date.isoformat(),
+                end_date=end_date.isoformat(),
+            )
+            filtered_data = filtered_data[filtered_data["noongar_season"].isin(applied_seasons)].copy()
 
-            period_metrics = get_period_extremes(filtered_data)
-            metric_col1, metric_col2, metric_col3 = st.columns(3)
-            with metric_col1:
-                st.metric("🔥 Hottest day", f"{period_metrics['hottest_day_temp_max']:.1f} °C", period_metrics["hottest_day_date"])
-            with metric_col2:
-                st.metric("🌧️ Wettest day", f"{period_metrics['wettest_day_rainfall_mm']:.1f} mm", period_metrics["wettest_day_date"])
-            with metric_col3:
-                st.metric("🌤️ Average day-night range", f"{period_metrics['avg_diurnal_range']:.1f} °C", "Maximum minus minimum")
+            if filtered_data.empty:
+                st.warning("No records match those choices. Try another year or season.")
+            else:
+                st.markdown("<br><br>", unsafe_allow_html=True)
+                st.markdown(f"### 🎉 We found {len(filtered_data):,} days of weather!")
+                st.markdown("<br>", unsafe_allow_html=True)
 
-            st.markdown("### 🌡️ Temperature: chilly mornings and warm afternoons")
-            st.caption("Each box shows the spread of daily minimum or maximum temperatures. Diamonds mark the average for that season.")
-            temperature_long = filtered_data.melt(
-                id_vars=["date", "noongar_season"],
-                value_vars=["temp_min", "temp_max"],
-                var_name="measurement",
-                value_name="temperature",
-            )
-            temperature_long["measurement"] = temperature_long["measurement"].map({
-                "temp_min": "Daily minimum", "temp_max": "Daily maximum"
-            })
-            temperature_chart = px.box(
-                temperature_long,
-                x="noongar_season",
-                y="temperature",
-                color="measurement",
-                color_discrete_map={"Daily minimum": "#2F6F6E", "Daily maximum": "#B8623F"},
-                points="outliers",
-                category_orders={"noongar_season": list(season_colours)},
-                labels={"noongar_season": "Noongar season", "temperature": "Temperature (°C)", "measurement": "Daily reading"},
-                template="plotly_white",
-            )
-            seasonal_averages = (
-                temperature_long.groupby(["noongar_season", "measurement"], as_index=False)["temperature"]
-                .mean()
-            )
-            for measurement, average_data in seasonal_averages.groupby("measurement"):
-                temperature_chart.add_scatter(
-                    x=average_data["noongar_season"],
-                    y=average_data["temperature"],
-                    mode="markers",
-                    name=f"{measurement} average",
-                    marker={"symbol": "diamond", "size": 12, "line": {"width": 1, "color": "#2B2420"}},
-                    hovertemplate="%{x}<br>Average: %{y:.1f} °C<extra></extra>",
+                period_metrics = get_period_extremes(filtered_data)
+                metric_col1, metric_col2, metric_col3 = st.columns(3)
+                with metric_col1:
+                    st.metric("🔥 Hottest day", f"{period_metrics['hottest_day_temp_max']:.1f} °C", period_metrics["hottest_day_date"])
+                with metric_col2:
+                    st.metric("🌧️ Wettest day", f"{period_metrics['wettest_day_rainfall_mm']:.1f} mm", period_metrics["wettest_day_date"])
+                with metric_col3:
+                    st.metric("🌤️ Average day-night range", f"{period_metrics['avg_diurnal_range']:.1f} °C", "Maximum minus minimum")
+
+                st.markdown("<br><hr style='border:1px dashed #E5D8C8;'><br>", unsafe_allow_html=True)
+                
+                # Temperature Chart
+                st.markdown("### 🌡️ Perth Temperature Averages")
+                st.caption("These bars show the average highest and lowest temperatures for your chosen seasons.")
+                st.markdown("<br>", unsafe_allow_html=True)
+                
+                seasonal_averages = filtered_data.groupby("noongar_season")[["temp_min", "temp_max"]].mean().reset_index()
+                temperature_long = seasonal_averages.melt(
+                    id_vars="noongar_season",
+                    value_vars=["temp_min", "temp_max"],
+                    var_name="measurement",
+                    value_name="temperature",
                 )
-            temperature_chart.update_layout(height=440, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#FFF9F1", legend_title_text="Temperature")
-            st.plotly_chart(temperature_chart, width="stretch", key="past_temperature_distribution")
+                
+                temperature_long["measurement"] = temperature_long["measurement"].map({
+                    "temp_min": "Morning Minimum", 
+                    "temp_max": "Afternoon Maximum"
+                })
+                
+                temperature_chart = px.bar(
+                    temperature_long,
+                    x="noongar_season",
+                    y="temperature",
+                    color="measurement",
+                    barmode="group",
+                    color_discrete_map={
+                        "Morning Minimum": "#4A6FA5", 
+                        "Afternoon Maximum": "#D94A4A"
+                    },
+                    category_orders={"noongar_season": list(season_colours)},
+                    labels={"noongar_season": "Noongar season", "temperature": "Temperature (°C)", "measurement": ""},
+                    template="plotly_white",
+                )
+                
+                # Format to center the chart, place the legend underneath, and use dark text
+                temperature_chart.update_layout(
+                    height=500, 
+                    paper_bgcolor="rgba(0,0,0,0)", 
+                    plot_bgcolor="#FFF9F1", 
+                    hovermode="x unified",
+                    legend=dict(
+                        title="Tap boxes to show/hide:",
+                        orientation="h",
+                        yanchor="top",
+                        y=-0.2,
+                        xanchor="center",
+                        x=0.5,
+                        font=dict(color="#2B2420", size=13)
+                    )
+                )
+                st.plotly_chart(temperature_chart, use_container_width=True, key="past_temperature_distribution", config={"displayModeBar": False})
 
-            st.markdown("### 🌧️ Rainfall: follow a rainy season")
-            monthly_rain = filtered_data.assign(month=filtered_data["date"].dt.to_period("M").dt.to_timestamp())
-            monthly_rain = (
-                monthly_rain.groupby(["month", "noongar_season"], as_index=False)["rainfall_mm"]
-                .sum()
-                .sort_values("month")
-            )
-            monthly_rain["cumulative_rainfall"] = monthly_rain["rainfall_mm"].cumsum()
-            rainfall_chart = make_subplots(specs=[[{"secondary_y": True}]])
-            rainfall_chart.add_trace(
-                go.Bar(
-                    x=monthly_rain["month"],
-                    y=monthly_rain["rainfall_mm"],
-                    name="Rain that month",
-                    marker_color=[season_colours[season] for season in monthly_rain["noongar_season"]],
-                    customdata=monthly_rain[["noongar_season"]],
-                    hovertemplate="%{x|%b %Y}<br>%{y:.1f} mm<br>%{customdata[0]}<extra></extra>",
-                ),
-                secondary_y=False,
-            )
-            rainfall_chart.add_trace(
-                go.Scatter(
-                    x=monthly_rain["month"],
-                    y=monthly_rain["cumulative_rainfall"],
-                    name="Rain added over time",
-                    mode="lines",
-                    line={"color": "#2F6F6E", "width": 4},
-                    hovertemplate="By %{x|%b %Y}: %{y:.1f} mm<extra></extra>",
-                ),
-                secondary_y=True,
-            )
-            rainfall_chart.update_yaxes(title_text="Rain that month (mm)", secondary_y=False)
-            rainfall_chart.update_yaxes(title_text="Cumulative rain (mm)", secondary_y=True)
-            rainfall_chart.update_xaxes(title_text="Month")
-            rainfall_chart.update_layout(
-                height=440,
-                barmode="overlay",
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="#FFF9F1",
-                hovermode="x unified",
-                legend_title_text="Rainfall",
-            )
-            st.plotly_chart(rainfall_chart, width="stretch", key="past_rainfall_cumulative")
-            season_totals = filtered_data.groupby("noongar_season")["rainfall_mm"].sum().sort_values(ascending=False)
-            wettest_season = season_totals.index[0]
-            driest_season = season_totals.index[-1]
-            st.info(
-                f"In this selection, {season_emojis[wettest_season]} **{wettest_season}** has the most recorded rain "
-                f"({season_totals.iloc[0]:.1f} mm); {season_emojis[driest_season]} **{driest_season}** has the least "
-                f"({season_totals.iloc[-1]:.1f} mm). Makuru is commonly associated with wetter weather and Bunuru with hot, dry weather."
-            )
-
+                st.markdown("<br><hr style='border:1px dashed #E5D8C8;'><br>", unsafe_allow_html=True)
+                
+                # Rainfall Chart
+                st.markdown("### 🌧️ Rainfall Over Time")
+                st.caption("See how the rain adds up across the different seasons.")
+                st.markdown("<br>", unsafe_allow_html=True)
+                
+                monthly_rain = filtered_data.assign(month=filtered_data["date"].dt.to_period("M").dt.to_timestamp())
+                monthly_rain = (
+                    monthly_rain.groupby(["month", "noongar_season"], as_index=False)["rainfall_mm"]
+                    .sum()
+                    .sort_values("month")
+                )
+                monthly_rain["cumulative_rainfall"] = monthly_rain["rainfall_mm"].cumsum()
+                rainfall_chart = make_subplots(specs=[[{"secondary_y": True}]])
+                rainfall_chart.add_trace(
+                    go.Bar(
+                        x=monthly_rain["month"],
+                        y=monthly_rain["rainfall_mm"],
+                        name="Rain that month",
+                        marker_color=[season_colours[season] for season in monthly_rain["noongar_season"]],
+                        customdata=monthly_rain[["noongar_season"]],
+                        hovertemplate="%{x|%b %Y}<br>%{y:.1f} mm<br>%{customdata[0]}<extra></extra>",
+                    ),
+                    secondary_y=False,
+                )
+                rainfall_chart.add_trace(
+                    go.Scatter(
+                        x=monthly_rain["month"],
+                        y=monthly_rain["cumulative_rainfall"],
+                        name="Rain added over time",
+                        mode="lines",
+                        line={"color": "#2F6F6E", "width": 4},
+                        hovertemplate="By %{x|%b %Y}: %{y:.1f} mm<extra></extra>",
+                    ),
+                    secondary_y=True,
+                )
+                rainfall_chart.update_yaxes(title_text="Rain that month (mm)", secondary_y=False)
+                rainfall_chart.update_yaxes(title_text="Cumulative rain (mm)", secondary_y=True)
+                rainfall_chart.update_xaxes(title_text="Month")
+                
+                # Format to center the chart, place the legend underneath, and use dark text
+                rainfall_chart.update_layout(
+                    height=500,
+                    barmode="overlay",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="#FFF9F1",
+                    hovermode="x unified",
+                    legend=dict(
+                        title="Tap boxes to show/hide:",
+                        orientation="h",
+                        yanchor="top",
+                        y=-0.2,
+                        xanchor="center",
+                        x=0.5,
+                        font=dict(color="#2B2420", size=13)
+                    )
+                )
+                st.plotly_chart(rainfall_chart, use_container_width=True, key="past_rainfall_cumulative", config={"displayModeBar": False})
+                
+                # Data limits disclaimer at the very bottom
+                st.markdown("<br><br><p style='text-align:center; font-size:0.95rem; color:#7C9070;'><em>The slider is limited to the data we have (1993–2026) - see the <strong>For Teachers & Parents</strong> tab for more info.</em></p>", unsafe_allow_html=True)
 
 # seasonal exploration page
 with seasons_tab:
@@ -676,8 +841,7 @@ with seasons_tab:
     now_perth = datetime.now(ZoneInfo("Australia/Perth"))
     st.session_state.setdefault("open_season", get_noongar_season(now_perth.month))
 
-    st.markdown("### 🌞 Choose a season")
-    st.caption("Tap a season to explore it. Tap it again to close it.")
+    st.markdown("### 🌞 Choose a season!")
 
     # Big, season-coloured buttons. Clicking the already-open season closes
     # it; clicking a different one swaps to that season instead. Plain
@@ -880,11 +1044,12 @@ with why_tab:
             "| November | Spring | Kambarang |\n| December | Summer | Birak |"
         )
         st.markdown(
-            "### 👀 Look for what is changing\n"
-            "The Noongar seasonal calendar is connected to this place and to "
-            "observations of the environment. The names and descriptions below "
-            "are a starting point for learning, not a substitute for Noongar "
-            "community knowledge."
+            "### Respect for Traditional Owners\n"
+            "Using the Noongar seasonal calendar is a way to respect and acknowledge "
+            "the Noongar people as the Traditional Custodians of South West Western Australia. "
+            "Their deep, continuous connection to this land means their knowledge of its weather, "
+            "plants, and animals has been gathered over tens of thousands of years. Learning these "
+            "seasons helps us better understand and care for the Country we live on today."
         )
 
         season_indicators = {
@@ -919,7 +1084,7 @@ with why_tab:
         render_cultural_acknowledgement()
 
 with about_tab:
-    st.title("📖 About Noongar Weather")
+    st.title("🧑‍🏫 For Teachers & Parents")
     st.write("How the weather data and seasonal learning content come together.")
 
     st.subheader("🌦️ Weather data")
@@ -962,12 +1127,14 @@ with about_tab:
     st.write(
         "The seasonal signs, flowers, animals, foods, and practices in `seasons.json` are a "
         "general learning summary. Season translations follow the BoM Nyoongar calendar. "
-        "The Noongar Boodjar Language Centre and SWALSC are named as Noongar language and "
-        "community sources for checking terminology and finding fuller cultural context."
+        "Specific Noongar plant and animal names (such as Yaakan, Karda, and Kurulbrang) "
+        "were sourced from the Noongar Boodjar Language Centre dictionaries and the Kaartdijin Noongar glossary. "
+        "These organisations are named as community sources for checking terminology and finding fuller cultural context."
     )
     st.markdown(
         "- [Bureau of Meteorology — Nyoongar calendar](https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar)\n"
         "- [Noongar Boodjar Language Centre](https://www.noongarboodjar.com.au/)\n"
+        "- [Kaartdijin Noongar — Sharing Noongar Culture (SWALSC)](https://www.kaartdijin-noongar.org.au/)\n"
         "- [South West Aboriginal Land and Sea Council (SWALSC)](https://www.noongar.org.au/)"
     )
 
@@ -976,8 +1143,7 @@ with about_tab:
     st.subheader("🖼️ Image Credits")
     image_credits = [
         ('"Brachyscome iberidifolia - Bergianska trädgården - Stockholm, Sweden - DSC00172.JPG" by Daderot — CC0', "https://commons.wikimedia.org/wiki/File:Brachyscome_iberidifolia_-_Bergianska_tr%C3%A4dg%C3%A5rden_-_Stockholm,_Sweden_-_DSC00172.JPG"),
-        ('"Magpie fledgling, fallen from nest, abandoned - geograph.org.uk - 6538468.jpg" by David Hawgood — CC BY-SA 2.0', "https://commons.wikimedia.org/wiki/File:Magpie_fledgling,_fallen_from_nest,_abandoned_-_geograph.org.uk_-_6538468.jpg"),
-        ('"Jarrah - Eucalyptus marginata.jpg" by Podiceps60 — CC BY-SA 3.0', "https://commons.wikimedia.org/wiki/File:Jarrah_-_Eucalyptus_marginata.jpg"),
+        ('"Grallina cyanoleuca -nest under swimming pool roof-8.jpg" by Tatiana Gerus — CC BY 2.0', "https://commons.wikimedia.org/wiki/File:Grallina_cyanoleuca_-nest_under_swimming_pool_roof-8.jpg"),        ('"Jarrah - Eucalyptus marginata.jpg" by Podiceps60 — CC BY-SA 3.0', "https://commons.wikimedia.org/wiki/File:Jarrah_-_Eucalyptus_marginata.jpg"),
         ('"Tursiops aduncus, Port River, Adelaide, Australia - 2003.jpg" by Aude Steiner — CC BY-SA 1.0', "https://commons.wikimedia.org/wiki/File:Tursiops_aduncus,_Port_River,_Adelaide,_Australia_-_2003.jpg"),
         ('"Corymbia ficifolia Flowers.jpg" by JJ Harrison (jjharrison.com.au) — CC BY-SA 3.0', "https://commons.wikimedia.org/wiki/File:Corymbia_ficifolia_Flowers.jpg"),
         ('"Formica neogagates, alate.jpg" by Beatriz Moisset — CC BY-SA 4.0', "https://commons.wikimedia.org/wiki/File:Formica_neogagates,_alate.jpg"),

@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import pandas as pd
+import streamlit as st
 
 try:
     from .aggregations import get_rainfall_trend, get_season_summary_metrics, get_temperature_trend
@@ -12,7 +13,7 @@ except ImportError:
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROCESSED_DATA_PATH = BASE_DIR / "data" / "processed" / "weather_processed_final.csv"
 
-
+@st.cache_data(ttl=3600, show_spinner="Loading processed weather data...")
 def load_processed_data(path: Path = PROCESSED_DATA_PATH) -> pd.DataFrame:
     """Load the processed dataset and normalize its date column."""
     if not path.exists():
@@ -61,6 +62,12 @@ def get_current_weather(data: pd.DataFrame) -> dict:
     """Return the most recent processed weather record as a JSON-friendly dict."""
     if data.empty:
         raise ValueError("Weather data is empty")
-    latest = data.sort_values("date").iloc[-1].copy()
+    
+    # Strictly drop rows with missing temperatures FIRST
+    valid_data = data.dropna(subset=["temp_max", "temp_min"]).copy()
+    if valid_data.empty:
+        valid_data = data
+        
+    latest = valid_data.sort_values("date").iloc[-1].copy()
     latest["date"] = pd.Timestamp(latest["date"]).date().isoformat()
     return latest.to_dict()
