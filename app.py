@@ -66,15 +66,20 @@ st.markdown(
         color: var(--warm-charcoal);
         font-family: 'Nunito', sans-serif;
     }
-    /* --- Mobile-Friendly Swipeable Tabs --- */
+    /* --- Mobile-Friendly Swipeable Tabs with Padding --- */
     div[data-testid="stTabs"] > div:first-of-type {
         width: 100% !important;
         display: block !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+    }
+    div[data-testid="stTabs"] > div:first-of-type::-webkit-scrollbar {
+        display: none !important;
     }
     div[data-testid="stTabs"] [role="tablist"] {
         display: flex !important;
         flex-wrap: nowrap !important;
-        overflow-x: auto !important;
         scrollbar-width: none !important;
         -webkit-overflow-scrolling: touch !important;
     }
@@ -88,11 +93,13 @@ st.markdown(
             justify-content: center !important;
         }
     }
-    /* Mobile: Left-aligned so scrolling works naturally */
+    /* Mobile: Left-aligned with breathing room padding so first tabs aren't clipped */
     @media (max-width: 767px) {
+        div[data-testid="stTabs"] > div:first-of-type {
+            padding-left: 16px !important;
+        }
         div[data-testid="stTabs"] [role="tablist"] {
             justify-content: flex-start !important;
-            padding-bottom: 2px !important;
         }
     }
 
@@ -309,16 +316,19 @@ st.markdown(
         display: flex;
         justify-content: center;
         align-items: center;
+        text-align: center;
         min-height: 120px;
     ">
         <h1 style='
-            text-align:center; 
+            width: 100%;
+            text-align: center !important; 
             font-family:\"Fredoka\", sans-serif; 
             font-size: clamp(2.5rem, 8vw, 4.5rem); 
             line-height: 1.1;
             letter-spacing: 1px; 
             color:#B8623F; 
-            margin: 0; 
+            margin: 0 auto; 
+            padding: 0;
             text-shadow: 2px 2px 4px rgba(184, 98, 63, 0.2);
         '>Noongar Weather</h1>
     </div>
