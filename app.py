@@ -69,27 +69,33 @@ st.markdown(
     /* --- Mobile-Friendly Swipeable Tabs --- */
     div[data-testid="stTabs"] > div:first-of-type {
         width: 100% !important;
-        overflow-x: auto !important; /* Enable horizontal swiping */
-        -webkit-overflow-scrolling: touch !important; /* Smooth momentum scroll on iOS */
-        scrollbar-width: none !important; /* Hide scrollbar on Firefox */
-    }
-    div[data-testid="stTabs"] > div:first-of-type::-webkit-scrollbar {
-        display: none !important; /* Hide scrollbar on Chrome/Safari/mobile */
+        display: block !important;
     }
     div[data-testid="stTabs"] [role="tablist"] {
         display: flex !important;
         flex-wrap: nowrap !important;
-        margin: 0 auto !important;
-        min-width: max-content !important; /* Prevents tabs from squishing */
+        overflow-x: auto !important;
+        scrollbar-width: none !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    div[data-testid="stTabs"] [role="tablist"]::-webkit-scrollbar {
+        display: none !important;
     }
     
-    /* Only force strict centering on larger desktop screens */
+    /* Desktop: Centered */
     @media (min-width: 768px) {
-        div[data-testid="stTabs"] > div:first-of-type {
+        div[data-testid="stTabs"] [role="tablist"] {
             justify-content: center !important;
-            display: flex !important;
         }
     }
+    /* Mobile: Left-aligned so scrolling works naturally */
+    @media (max-width: 767px) {
+        div[data-testid="stTabs"] [role="tablist"] {
+            justify-content: flex-start !important;
+            padding-bottom: 2px !important;
+        }
+    }
+
     div[data-testid="stTabs"] [role="tablist"] {
         justify-content: center !important;
         margin: 0 auto !important;
@@ -289,23 +295,28 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# New Logo Header
+# Logo Header
 st.markdown(
     """
     <div style="
         background: #FFF9F1; 
         border: 3px solid #B8623F; 
         border-radius: 24px; 
-        padding: clamp(12px, 3vw, 16px) clamp(16px, 5vw, 32px); 
-        margin: 16px auto 40px auto; 
+        padding: 16px; 
+        margin: 16px auto 32px auto; 
         max-width: 800px; 
         box-shadow: 0 12px 28px rgba(43, 36, 32, 0.12);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 120px;
     ">
         <h1 style='
             text-align:center; 
             font-family:\"Fredoka\", sans-serif; 
-            font-size: clamp(2.2rem, 8vw, 5rem); 
-            letter-spacing:2px; 
+            font-size: clamp(2.5rem, 8vw, 4.5rem); 
+            line-height: 1.1;
+            letter-spacing: 1px; 
             color:#B8623F; 
             margin: 0; 
             text-shadow: 2px 2px 4px rgba(184, 98, 63, 0.2);
