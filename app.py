@@ -66,40 +66,20 @@ st.markdown(
         color: var(--warm-charcoal);
         font-family: 'Nunito', sans-serif;
     }
-    /* --- Bulletproof Mobile Swipeable Tabs --- */
-    div[data-testid="stTabs"] > div:first-of-type {
-        width: 100% !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        scrollbar-width: none !important;
-    }
-    div[data-testid="stTabs"] > div:first-of-type::-webkit-scrollbar {
-        display: none !important;
-    }
-    div[data-testid="stTabs"] [role="tablist"] {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        width: max-content !important;
-    }
-    
-    /* Desktop: Centered */
-    @media (min-width: 768px) {
-        div[data-testid="stTabs"] [role="tablist"] {
-            justify-content: center !important;
-            margin: 0 auto !important;
-        }
-    }
-    /* Mobile: Start cleanly at the edge without cutting off Home/Past Data */
-    @media (max-width: 767px) {
-        div[data-testid="stTabs"] [role="tablist"] {
-            justify-content: flex-start !important;
-            transform: none !important;
-            margin-left: 0 !important;
-        }
-        div[data-testid="stTabs"] button[role="tab"] {
-            flex-shrink: 0 !important;
-        }
-    }
+   div[data-testid="stTabs"] [role="tablist"] {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+    div[data-testid="stTabs"] [role="tablist"]::-webkit-scrollbar { display: none; }
+    div[data-testid="stTabs"] button[role="tab"] {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+/* auto margins centre the tabs when they fit, and collapse when they overflow */
+div[data-testid="stTabs"] button[role="tab"]:first-of-type { margin-left: auto; }
+div[data-testid="stTabs"] button[role="tab"]:last-of-type  { margin-right: auto; }
 
     div[data-testid="stTabs"] [role="tablist"] {
         justify-content: center !important;
@@ -107,6 +87,8 @@ st.markdown(
         display: flex !important;
     }
     
+    [data-testid="stHeaderActionElements"] { display: none !important; }
+
     [data-testid="stHeader"] { background: transparent; }
     .stApp h1, .stApp h2, .stApp h3, .stApp h4,
     .stApp [data-testid="stMetricValue"] {
