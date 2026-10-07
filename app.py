@@ -66,12 +66,29 @@ st.markdown(
         color: var(--warm-charcoal);
         font-family: 'Nunito', sans-serif;
     }
-    
-    /* --- Force Tabs to Center --- */
+    /* --- Mobile-Friendly Swipeable Tabs --- */
     div[data-testid="stTabs"] > div:first-of-type {
-        justify-content: center !important;
-        display: flex !important;
         width: 100% !important;
+        overflow-x: auto !important; /* Enable horizontal swiping */
+        -webkit-overflow-scrolling: touch !important; /* Smooth momentum scroll on iOS */
+        scrollbar-width: none !important; /* Hide scrollbar on Firefox */
+    }
+    div[data-testid="stTabs"] > div:first-of-type::-webkit-scrollbar {
+        display: none !important; /* Hide scrollbar on Chrome/Safari/mobile */
+    }
+    div[data-testid="stTabs"] [role="tablist"] {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        margin: 0 auto !important;
+        min-width: max-content !important; /* Prevents tabs from squishing */
+    }
+    
+    /* Only force strict centering on larger desktop screens */
+    @media (min-width: 768px) {
+        div[data-testid="stTabs"] > div:first-of-type {
+            justify-content: center !important;
+            display: flex !important;
+        }
     }
     div[data-testid="stTabs"] [role="tablist"] {
         justify-content: center !important;
@@ -279,7 +296,7 @@ st.markdown(
         background: #FFF9F1; 
         border: 3px solid #B8623F; 
         border-radius: 24px; 
-        padding: 16px 32px; 
+        padding: clamp(12px, 3vw, 16px) clamp(16px, 5vw, 32px); 
         margin: 16px auto 40px auto; 
         max-width: 800px; 
         box-shadow: 0 12px 28px rgba(43, 36, 32, 0.12);
@@ -287,7 +304,7 @@ st.markdown(
         <h1 style='
             text-align:center; 
             font-family:\"Fredoka\", sans-serif; 
-            font-size:5rem; 
+            font-size: clamp(2.2rem, 8vw, 5rem); 
             letter-spacing:2px; 
             color:#B8623F; 
             margin: 0; 
