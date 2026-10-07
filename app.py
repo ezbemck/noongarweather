@@ -66,10 +66,9 @@ st.markdown(
         color: var(--warm-charcoal);
         font-family: 'Nunito', sans-serif;
     }
-    /* --- Mobile-Friendly Swipeable Tabs with Padding --- */
+    /* --- Bulletproof Mobile Swipeable Tabs --- */
     div[data-testid="stTabs"] > div:first-of-type {
         width: 100% !important;
-        display: block !important;
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch !important;
         scrollbar-width: none !important;
@@ -80,26 +79,25 @@ st.markdown(
     div[data-testid="stTabs"] [role="tablist"] {
         display: flex !important;
         flex-wrap: nowrap !important;
-        scrollbar-width: none !important;
-        -webkit-overflow-scrolling: touch !important;
-    }
-    div[data-testid="stTabs"] [role="tablist"]::-webkit-scrollbar {
-        display: none !important;
+        width: max-content !important;
     }
     
     /* Desktop: Centered */
     @media (min-width: 768px) {
         div[data-testid="stTabs"] [role="tablist"] {
             justify-content: center !important;
+            margin: 0 auto !important;
         }
     }
-    /* Mobile: Left-aligned with breathing room padding so first tabs aren't clipped */
+    /* Mobile: Start cleanly at the edge without cutting off Home/Past Data */
     @media (max-width: 767px) {
-        div[data-testid="stTabs"] > div:first-of-type {
-            padding-left: 16px !important;
-        }
         div[data-testid="stTabs"] [role="tablist"] {
             justify-content: flex-start !important;
+            transform: none !important;
+            margin-left: 0 !important;
+        }
+        div[data-testid="stTabs"] button[role="tab"] {
+            flex-shrink: 0 !important;
         }
     }
 
@@ -302,35 +300,40 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Logo Header
+# Logo Header - designed for web nd mobile
 st.markdown(
     """
     <div style="
-        background: #FFF9F1; 
-        border: 3px solid #B8623F; 
-        border-radius: 24px; 
-        padding: 16px; 
-        margin: 16px auto 32px auto; 
-        max-width: 800px; 
-        box-shadow: 0 12px 28px rgba(43, 36, 32, 0.12);
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        text-align: center;
-        min-height: 120px;
+        margin: 16px 0 32px 0;
     ">
-        <h1 style='
+        <div style="
+            background: #FFF9F1; 
+            border: 3px solid #B8623F; 
+            border-radius: 24px; 
+            padding: 16px 24px; 
             width: 100%;
-            text-align: center !important; 
-            font-family:\"Fredoka\", sans-serif; 
-            font-size: clamp(2.5rem, 8vw, 4.5rem); 
-            line-height: 1.1;
-            letter-spacing: 1px; 
-            color:#B8623F; 
-            margin: 0 auto; 
-            padding: 0;
-            text-shadow: 2px 2px 4px rgba(184, 98, 63, 0.2);
-        '>Noongar Weather</h1>
+            max-width: 750px;
+            box-shadow: 0 12px 28px rgba(43, 36, 32, 0.12);
+            text-align: center !important;
+        ">
+            <h1 style='
+                display: block;
+                width: 100%;
+                text-align: center !important; 
+                font-family: \"Fredoka\", sans-serif; 
+                font-size: clamp(2.2rem, 7vw, 4.2rem); 
+                line-height: 1.15;
+                letter-spacing: 1px; 
+                color: #B8623F; 
+                margin: 0 auto !important; 
+                padding: 0 !important;
+                text-shadow: 2px 2px 4px rgba(184, 98, 63, 0.2);
+            '>Noongar Weather</h1>
+        </div>
     </div>
     """,
     unsafe_allow_html=True,
