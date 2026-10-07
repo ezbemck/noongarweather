@@ -17,7 +17,6 @@ from src.season_mapper import get_noongar_season
 from src.weather_service import (
     filter_historical_weather,
     get_current_weather,
-    get_season_dashboard,
     load_processed_data,
 )
 
@@ -304,34 +303,6 @@ def local_image_path(category, name, expected_path=None):
             return image_path
     return None
 
-
-def render_photo_cards(items, category, accent, placeholder_emoji, image_map=None):
-    """Render centered local-image cards, with a friendly fallback if absent."""
-    image_map = image_map or {}
-    columns_per_row = min(3, len(items))
-    for start in range(0, len(items), columns_per_row):
-        row_items = items[start:start + columns_per_row]
-        columns = st.columns(columns_per_row)
-        for column, item in zip(columns, row_items):
-            with column:
-                with st.container(border=True):
-                    image_path = local_image_path(category, item, image_map.get(item))
-                    if image_path:
-                        st.image(str(image_path), width="stretch")
-                        st.caption("Image credit: Wikimedia Commons")
-                    else:
-                        st.markdown(
-                            f"<div class='season-photo-placeholder' style='height:135px; display:grid; place-items:center; "
-                            f"background:{accent}18; border:2px solid {accent}; border-radius:14px; "
-                            f"font-size:3.2rem;'>{placeholder_emoji}</div>",
-                            unsafe_allow_html=True,
-                        )
-                    st.markdown(
-                        f"<p style='text-align:center; font-weight:800; color:#2B2420;'>{escape(item)}</p>",
-                        unsafe_allow_html=True,
-                    )
-
-
 def render_species_card(entry, accent):
     common_name = entry["common_name"]
     category = entry["category"]
@@ -591,8 +562,6 @@ with past_tab:
         if filtered_data.empty:
             st.warning("No records match those choices. Try another year or season.")
         else:
-            chart_accent = season_colours[applied_seasons[0]] if len(applied_seasons) == 1 else "#2F6F6E"
-            st.markdown(f"<style>:root {{ --season-accent: {chart_accent}; }}</style>", unsafe_allow_html=True)
             st.markdown(f"### 🎉 We found {len(filtered_data):,} days of weather!")
 
             period_metrics = get_period_extremes(filtered_data)
@@ -935,7 +904,6 @@ with why_tab:
                             max-width:850px; text-align:center;">
                     <h3 style="color:{accent}; margin:0;">{season_emojis[season]} {season}</h3>
                     <p style="font-size:1.1rem; font-weight:800; margin:5px 0;">{months} · {description}</p>
-                    <p style="margin:0;">{escape(description)}</p>
                 </div>
                 """,
                 unsafe_allow_html=True,

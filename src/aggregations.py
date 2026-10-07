@@ -84,11 +84,17 @@ def get_season_summary_metrics(df: pd.DataFrame, season: str) -> dict:
     if season_df.empty:
         raise ValueError(f"No weather records found for season: {season}")
     
+    # Shift January back by 1 year so Dec/Jan group together as one "season year"
+    season_years = season_df["date"].dt.year
+    is_january = season_df["date"].dt.month == 1
+    season_years = season_years.where(~is_january, season_years - 1)
+    
+    unique_cycles = season_years.nunique()
+    
     return {
         "avg_max_temp": round(season_df["temp_max"].mean(), 1),
         "avg_min_temp": round(season_df["temp_min"].mean(), 1),
-        # Total rainfall divided by number of unique years to get average seasonal rainfall
-        "avg_seasonal_rain": round(season_df["rainfall_mm"].sum() / season_df["date"].dt.year.nunique(), 1)
+        "avg_seasonal_rain": round(season_df["rainfall_mm"].sum() / unique_cycles, 1) if unique_cycles else 0
     }
 
 

@@ -64,13 +64,3 @@ def get_current_weather(data: pd.DataFrame) -> dict:
     latest = data.sort_values("date").iloc[-1].copy()
     latest["date"] = pd.Timestamp(latest["date"]).date().isoformat()
     return latest.to_dict()
-
-
-def get_season_dashboard(data: pd.DataFrame, season: str) -> dict:
-    """Return metrics and chart data needed for a season comparison view."""
-    return {
-        "season": season,
-        "summary": get_season_summary_metrics(data, season),
-        "rainfall_trend": get_rainfall_trend(data, season).to_dict("records"),
-        "temperature_trend": get_temperature_trend(data, season).to_dict("records"),
-    }

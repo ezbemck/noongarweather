@@ -59,14 +59,12 @@ def run_pipeline():
     print("3. Cleaning missing values...")
     # BoM uses blank rainfall values for days with no recorded rainfall.
     df_merged["rainfall_mm"] = df_merged["rainfall_mm"].fillna(0.0)
-    # Drop rows where temperature sensors failed entirely
-    df_merged = df_merged.dropna(subset=["temp_max", "temp_min"])
 
     print("4. Applying Noongar seasons mapping...")
     df_final = apply_noongar_seasons(df_merged, date_column="date")
     
     # Calculate daily average for frontend graphing
-    df_final["temp_avg"] = ((df_final["temp_max"] + df_final["temp_min"]) / 2).round(1)
+    df_final["temp_avg"] = df_final[["temp_max", "temp_min"]].mean(axis=1).round(1)
     df_final = df_final.sort_values("date").reset_index(drop=True)
 
     print("5. Exporting processed data...")
