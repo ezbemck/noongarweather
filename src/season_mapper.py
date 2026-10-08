@@ -2,6 +2,11 @@ import pandas as pd
 
 def get_noongar_season(month: int) -> str:
     """Returns the Noongar season based on the calendar month."""
+    if not isinstance(month, (int, float)) or isinstance(month, bool):
+        raise TypeError("Month must be a number")
+    month_int = int(month)
+    if month_int not in range(1, 13):
+        raise ValueError("Month must be between 1 and 12")
     seasons = {
         1: "Birak", 2: "Bunuru", 3: "Bunuru", 4: "Djeran", 5: "Djeran",
         6: "Makuru", 7: "Makuru", 8: "Djilba", 9: "Djilba",

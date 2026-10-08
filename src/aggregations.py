@@ -107,20 +107,31 @@ def get_period_extremes(df: pd.DataFrame) -> dict:
     period_df["temp_max"] = pd.to_numeric(period_df["temp_max"], errors="coerce")
     period_df["temp_min"] = pd.to_numeric(period_df["temp_min"], errors="coerce")
     period_df["rainfall_mm"] = pd.to_numeric(period_df["rainfall_mm"], errors="coerce")
-
+    
+    # Calculate unrounded average diurnal range
+    avg_range = float((period_df["temp_max"] - period_df["temp_min"]).mean())
+    
     valid_temperature = period_df.dropna(subset=["temp_max", "temp_min"])
     valid_rainfall = period_df.dropna(subset=["rainfall_mm"])
     if valid_temperature.empty or valid_rainfall.empty:
         raise ValueError("Weather data is missing temperature or rainfall values")
 
-    hottest = valid_temperature.loc[valid_temperature["temp_max"].idxmax()]
-    wettest = valid_rainfall.loc[valid_rainfall["rainfall_mm"].idxmax()]
-    daily_range = valid_temperature["temp_max"] - valid_temperature["temp_min"]
+    # Find hottest day
+    hottest_idx = valid_temperature["temp_max"].idxmax()
+    hottest_row = valid_temperature.loc[hottest_idx]
+    hottest_date = pd.Timestamp(hottest_row["date"]).date().isoformat()
+    hottest_max = float(hottest_row["temp_max"])
+
+    # Find wettest day
+    wettest_idx = valid_rainfall["rainfall_mm"].idxmax()
+    wettest_row = valid_rainfall.loc[wettest_idx]
+    wettest_date = pd.Timestamp(wettest_row["date"]).date().isoformat()
+    wettest_rain = float(wettest_row["rainfall_mm"])
 
     return {
-        "hottest_day_date": hottest["date"].strftime("%Y-%m-%d"),
-        "hottest_day_temp_max": round(float(hottest["temp_max"]), 1),
-        "wettest_day_date": wettest["date"].strftime("%Y-%m-%d"),
-        "wettest_day_rainfall_mm": round(float(wettest["rainfall_mm"]), 1),
-        "avg_diurnal_range": round(float(daily_range.mean()), 1),
+        "hottest_day_date": hottest_date,
+        "hottest_day_temp_max": hottest_max,
+        "wettest_day_date": wettest_date,
+        "wettest_day_rainfall_mm": wettest_rain,
+        "avg_diurnal_range": avg_range,
     }

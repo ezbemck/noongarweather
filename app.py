@@ -734,8 +734,11 @@ with past_tab:
                 with metric_col2:
                     st.metric("🌧️ Wettest day", f"{period_metrics['wettest_day_rainfall_mm']:.1f} mm", period_metrics["wettest_day_date"])
                 with metric_col3:
-                    st.metric("🌤️ Average day-night range", f"{period_metrics['avg_diurnal_range']:.1f} °C", "Maximum minus minimum")
-
+                    st.metric(
+                        "🌤️ Average day-night range", 
+                        f"{period_metrics['avg_diurnal_range']:.1f} °C", # Formats as 12.9 °C visually
+                        "Maximum minus minimum"
+                    )
                 st.markdown("<br><hr style='border:1px dashed #E5D8C8;'><br>", unsafe_allow_html=True)
                 
                 # Temperature Chart
