@@ -1134,7 +1134,9 @@ with why_tab:
         st.markdown(
             "<p><a href='https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar'>Bureau of Meteorology — Nyoongar Indigenous Weather Knowledge</a></p>"
             "<p><a href='https://www.noongarboodjar.com.au/'>Noongar Boodjar Language Centre</a></p>"
-            "<p><a href='https://www.noongar.org.au/'>South West Aboriginal Land and Sea Council (SWALSC)</a></p>",
+            "<p><a href='https://www.noongar.org.au/'>South West Aboriginal Land and Sea Council (SWALSC)</a></p>"
+            "<p><a href='https://www.ecu.edu.au/centres/kurongkurl-katitjin/cultural-leadership/nyoongar-six-seasons'>ECU — Six Seasons</a></p>"
+            "<p><a href='https://www.westernaustralia.com/au/plan-my-trip/planning-tools/travel-stories/birak-season-in-perth'>Tourism WA — Birak</a></p>",
             unsafe_allow_html=True,
         )
         render_cultural_acknowledgement()
@@ -1193,7 +1195,8 @@ with about_tab:
         "- [Bureau of Meteorology — Nyoongar calendar](https://www.bom.gov.au/resources/indigenous-weather-knowledge/indigenous-seasonal-calendars/nyoongar-calendar)\n"
         "- [Noongar Boodjar Language Centre](https://www.noongarboodjar.com.au/)\n"
         "- [Kaartdijin Noongar — Sharing Noongar Culture (SWALSC)](https://www.kaartdijin-noongar.org.au/)\n"
-        "- [South West Aboriginal Land and Sea Council (SWALSC)](https://www.noongar.org.au/)"
+        "- [South West Aboriginal Land and Sea Council (SWALSC)](https://www.noongar.org.au/)\n"
+        "- [ECU — Nyoongar Six Seasons](https://www.ecu.edu.au/centres/kurongkurl-katitjin/cultural-leadership/nyoongar-six-seasons)"
     )
 
     render_cultural_acknowledgement()
