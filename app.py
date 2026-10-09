@@ -1207,5 +1207,5 @@ with about_tab:
     st.subheader("🧑‍🎓 About this project")
     st.write(
         "Built as a CITS1501 Project to help Perth "
-        "primary school students learn about the six Noongar seasons alongside real local weather data."
+        "primary school to tertiary students learn about the six Noongar seasons alongside real local weather data."
     )
