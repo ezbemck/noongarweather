@@ -1,5 +1,10 @@
 import pandas as pd
 
+
+#Wihin the backend pipeline, the primary purpose of this app is to map calendar months to the corresponding Noongar seasons, enriching the weather data with cultural context. 
+# This is essential for providing meaningful insights and visualizations in the frontend application, allowing users to understand weather patterns in relation to traditional Noongar seasonal cycles.
+
+#This function returns the Noongar season corresponding to a given calendar month, ensuring that the input is a valid integer between 1 and 12.
 def get_noongar_season(month: int) -> str:
     """Returns the Noongar season based on the calendar month."""
     if not isinstance(month, (int, float)) or isinstance(month, bool):
@@ -14,6 +19,7 @@ def get_noongar_season(month: int) -> str:
     }
     return seasons.get(month, "Unknown")
 
+#This function will append a 'noongar_season' column to the DataFrame based on the provided date column, ensuring that the date values are valid and properly formatted.
 def apply_noongar_seasons(df: pd.DataFrame, date_column: str = "date") -> pd.DataFrame:
     """Appends a 'noongar_season' column to the DataFrame."""
     df_processed = df.copy()

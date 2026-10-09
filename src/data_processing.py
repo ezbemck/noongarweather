@@ -1,18 +1,22 @@
 import pandas as pd
 from pathlib import Path
 
+#The purpose of this app within the backend pipeline is to process raw weather data from the Bureau of Meteorology (BoM) and prepare it for frontend visualization.
+#Within the backend chain, this app ensures that the data is cleaned, merged, and enriched with Noongar seasonal information, making it suitable for analysis and display in the frontend application.
+#This block attempts to import the apply_noongar_seasons function from the season_mapper module.
 try:
     from .season_mapper import apply_noongar_seasons
 except ImportError:
     from season_mapper import apply_noongar_seasons
 
-# Define relative paths so the script works anywhere
+# Define relative paths so the script works anywhere.
+#This is important because the script may be run from different working directories, and we want to ensure that the data files are always found correctly.
 BASE_DIR = Path(__file__).resolve().parent.parent
 RAW_DIR = BASE_DIR / "data" / "raw"
 PROCESSED_DIR = BASE_DIR / "data" / "processed"
 
+#This function will load a raw BoM CSV file, extract the date and a specific weather metric, and return a cleaned DataFrame.
 def load_bom_csv(filepath: Path, value_col_name: str, new_col_name: str) -> pd.DataFrame:
-    """Extracts dates and specific weather metrics from a raw BoM CSV."""
     if not filepath.exists():
         raise FileNotFoundError(f"Missing file: {filepath}. Check if it is in data/raw/.")
 
@@ -46,6 +50,8 @@ def load_bom_csv(filepath: Path, value_col_name: str, new_col_name: str) -> pd.D
     
     return df_clean
 
+#This run pipeline function will execute the entire data processing workflow, from loading raw datasets to exporting the final processed CSV.
+#It is designed to be run as a standalone script, ensuring that all steps are completed in sequence and that the final output is ready for frontend use.
 def run_pipeline():
     print("1. Loading raw BoM datasets...")
     df_max = load_bom_csv(RAW_DIR / "max_temp.csv", "Maximum temperature", "temp_max")
@@ -74,5 +80,6 @@ def run_pipeline():
     
     print(f"Pipeline complete! {len(df_final)} records saved to {output_path}")
 
+#this function will execute the run_pipeline function if the script is run directly, allowing for easy testing and execution of the data processing workflow within VSCODE.
 if __name__ == "__main__":
     run_pipeline()

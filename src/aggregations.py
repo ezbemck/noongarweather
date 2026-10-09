@@ -1,8 +1,12 @@
 import pandas as pd
 
+#This app is separated from the other backend pipelines to allow for more complex data processing and analysis of the weather data, which is necessary for the frontend visualizations and seasonal insights.
+
+
 VALID_SEASONS = {"Birak", "Bunuru", "Djeran", "Makuru", "Djilba", "Kambarang"}
 
-
+#This function checks if the required columns are present in the DataFrame and prepares it for further analysis. 
+# It converts the 'date' column to datetime format and raises an error if any required columns are missing or if there are invalid date values.
 def _prepare_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     required_columns = {"date", "noongar_season", "temp_min", "temp_max", "rainfall_mm"}
     missing_columns = required_columns.difference(df.columns)
@@ -15,18 +19,16 @@ def _prepare_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         raise ValueError("Invalid date values found in weather data")
     return prepared
 
-
+#This function filters the DataFrame to include only the rows corresponding to the specified Noongar season.
 def _season_dataframe(df: pd.DataFrame, season: str) -> pd.DataFrame:
     if season not in VALID_SEASONS:
         raise ValueError(f"Unknown Noongar season: {season}")
     prepared = _prepare_dataframe(df)
     return prepared[prepared["noongar_season"] == season].copy()
 
+#This function calculates the total rainfall for each year within a specific Noongar season.
+#Then prepares a clean DataFrame for a Plotly bar chart.
 def get_rainfall_trend(df: pd.DataFrame, season: str) -> pd.DataFrame:
-    """
-    Calculates total rainfall per year for a specific Noongar season.
-    Prepares a clean DataFrame for a Plotly bar chart.
-    """
     # 1. Filter to the requested season
     season_df = _season_dataframe(df, season)
     
@@ -44,11 +46,9 @@ def get_rainfall_trend(df: pd.DataFrame, season: str) -> pd.DataFrame:
     
     return yearly_rain
 
+#This function calculates the average minimum and maximum temperatures for each year within a specific Noongar season.
+#It melts the DataFrame into a 'long format' for a Plotly multi-line chart.
 def get_temperature_trend(df: pd.DataFrame, season: str) -> pd.DataFrame:
-    """
-    Calculates average min and max temperatures per year for a specific season.
-    Melts the DataFrame into a 'long format' for a Plotly multi-line chart.
-    """
     season_df = _season_dataframe(df, season)
     season_df["year"] = pd.to_datetime(season_df["date"]).dt.year
     
@@ -76,10 +76,8 @@ def get_temperature_trend(df: pd.DataFrame, season: str) -> pd.DataFrame:
     
     return melted_df
 
+#This function calculates quick summary statistics for the frontend metric cards.
 def get_season_summary_metrics(df: pd.DataFrame, season: str) -> dict:
-    """
-    Calculates quick summary statistics for the frontend metric cards.
-    """
     season_df = _season_dataframe(df, season)
     if season_df.empty:
         raise ValueError(f"No weather records found for season: {season}")
@@ -97,9 +95,10 @@ def get_season_summary_metrics(df: pd.DataFrame, season: str) -> dict:
         "avg_seasonal_rain": round(season_df["rainfall_mm"].sum() / unique_cycles, 1) if unique_cycles else 0
     }
 
-
+#This function summarizes hottest/wettest days and mean diurnal range for a period.
+#Diurnal range is the difference between the daily maximum and minimum temperatures.
+#We use the unrounded mean diurnal range for more accurate calculations, but round the other metrics for display.
 def get_period_extremes(df: pd.DataFrame) -> dict:
-    """Summarize hottest/wettest days and mean diurnal range for a period."""
     period_df = _prepare_dataframe(df)
     if period_df.empty:
         raise ValueError("No weather records found for this period")
